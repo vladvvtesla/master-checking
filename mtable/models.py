@@ -3,8 +3,8 @@ from django.utils import timezone
 
 # Create Class for cells of main table
 class CellValue(models.Model):
-    #author = models.ForeignKey('auth.User')
-    #created_date = models.DateTimeField(default=timezone.now)
+    # author = models.ForeignKey('auth.User')
+    created_date = models.DateTimeField(default=timezone.now)
     sitename = 'MASTER-Site-Name'
 
     def  sun_alt(self):
@@ -15,8 +15,8 @@ class CellValue(models.Model):
 
 # MasterSite: MASTER-SAAO, MASTER-IAC etc
 class MasterSite(models.Model):
-    #author = models.ForeignKey('auth.User')
-    # created_date = models.DateTimeField(default=timezone.now)
+    # author = models.ForeignKey('auth.User')
+    created_date = models.DateTimeField(default=timezone.now)
     sitename = models.CharField(max_length=20)
     lat = '123'
     lon = '456'
@@ -31,16 +31,16 @@ class MasterSite(models.Model):
 
 # Main Server: Main Server , Ebox server 
 class MainServer(models.Model):
-    #author = models.ForeignKey('auth.User')
-    # created_date = models.DateTimeField(default=timezone.now)
+    # author = models.ForeignKey('auth.User')
+    created_date = models.DateTimeField(default=timezone.now)
     sitename = models.CharField(max_length=20)
-    isok = models.BooleanField()
-    iserr = models.BooleanField()
+    status = models.CharField(max_length=3, default='OK')
     ipaddr = '127.0.0.1'
 
     # Is ping UP?
     def  is_ping(self):
-        return '45'
+        is_ping = True
+        return is_ping
 
     def __str__(self):
         return self.sitename

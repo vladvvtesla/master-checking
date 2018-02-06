@@ -13,39 +13,45 @@
             <p>Some text.</p>
         </div>
 
-        <div>
-            <p>published: 14.06.2017, 12:14</p>
-            <h2><a href="">MASTER-Site-2</a></h2>
-            <p>Some other text.</p>
-        </div>
 
 
 
 <table>
   <tr>
     <th> </th>
-    <th>MASTER-Site-1</th>
-    <th>MASTER-Site-2</th>
+    {% for main_server in main_servers %}
+      <div>
+        <td><a href="">{{ main_server.sitename }}</a></td>
+      </div>
+    {% endfor %}
   </tr>
   <tr>
     <td>Main Server</td>
-    <td>Site-1 Main Server</td>
-    <td>Site-2 Main Server</td>
+    {% for main_server in main_servers %}
+      <div>
+        <td>{{ main_server.status }}</td>
+      </div>
+    {% endfor %}
   </tr>
   <tr>
     <td>CCD WEST</td>
-    <td>Site-1 CCD WEST</td>
-    <td>Site-2 CCD WEST </td>
+    {% for main_server in main_servers %}
+      <div>
+        <td>{{ ccd_west.status }}</td>
+      </div>
+    {% endfor %}
   </tr>
   <tr>
     <td>CCD EAST</td>
-    <td>Site-1 CCD EAST</td>
-    <td>Site-2 CCD EAST</td>
+    <td>OK</td>
+    <td>OK</td>
+    <td>OK</td>
   </tr>
   <tr>
     <td>Prosilica 1</td>
-    <td>Site-1 Prosilica</td>
-    <td>Site-2 Prosilica</td>
+    <td>OK</td>
+    <td>OK</td>
+    <td>OK</td>
   </tr>
 
 </table>
