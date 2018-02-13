@@ -1,27 +1,15 @@
 from django.db import models
 from django.utils import timezone
 
-# Create Class for cells of main table
-class CellValue(models.Model):
-    # author = models.ForeignKey('auth.User')
-    created_date = models.DateTimeField(default=timezone.now)
-    sitename = 'MASTER-Site-Name'
-
-    def  sun_alt(self):
-        return '90'
-
-    def __str__(self):
-        return self.sitename
-
 # MasterSite: MASTER-SAAO, MASTER-IAC etc
 class MasterSite(models.Model):
     # author = models.ForeignKey('auth.User')
     created_date = models.DateTimeField(default=timezone.now)
     sitename = models.CharField(max_length=20)
-    lat = '123'
-    lon = '456'
-    elev = '8000'
-    website = 'https://master-website.ru'
+    lat = models.CharField(max_length=20, null=True, blank=True)
+    lon = models.CharField(max_length=20, null=True, blank=True)
+    elev = models.CharField(max_length=20, null=True, blank=True)
+    website = models.CharField(max_length=30, null=True, blank=True)
 
     def  sun_alt(self):
         return '45'
