@@ -17,7 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
 
+from mtable.views import RegisterFormView
+from mtable.views import LoginFormView
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    url(r'', include('mtable.urls')),
+    # url(r'^register/', RegisterFormView.as_view()),
+    url(r'^$', LoginFormView.as_view()),
+    url(r'^mtable/', include('mtable.urls')),
+    url(r'^admin/', admin.site.urls),
 ]
+

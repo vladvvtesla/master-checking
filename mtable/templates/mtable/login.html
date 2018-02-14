@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <!-- Bootstrap CSS -->
+    {% load bootstrap4 %}
+    <script src="{% bootstrap_jquery_url %}"></script>
+    {% bootstrap_javascript %}
+    {% bootstrap_css %}
+
+    <title>Log In</title>
+  </head>
+  <body>
+
+    <div class="container">
+      <div>
+        <p></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <form action="" method="post">
+        {% csrf_token %}
+        <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
+        {{ form.as_p }}
+        <button type="submit">Log in</button>
+      </form>
+    </div>
+
+  </body>
+</html>
