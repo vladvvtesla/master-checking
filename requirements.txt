@@ -2,3 +2,5 @@ pyephem
 configparser
 Django==2.0.2
 django-bootstrap4
+pyzabbix
+requests

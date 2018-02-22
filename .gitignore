@@ -2,6 +2,7 @@
 *~
 __pycache__
 fixtures
+etc
 myvenv
 db.sqlite3
 mtable/migrations
