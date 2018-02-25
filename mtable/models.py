@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+
 # MasterSite: MASTER-SAAO, MASTER-IAC etc
 class MasterSite(models.Model):
     # author = models.ForeignKey('auth.User')
@@ -9,7 +10,7 @@ class MasterSite(models.Model):
     lat = models.CharField(max_length=20, null=True, blank=True)
     lon = models.CharField(max_length=20, null=True, blank=True)
     elev = models.CharField(max_length=20, null=True, blank=True)
-    website = models.CharField(max_length=30, null=True, blank=True)
+    website = models.URLField(max_length=30, null=True, blank=True)
 
     def  sun_alt(self):
         return '45'
@@ -19,16 +20,15 @@ class MasterSite(models.Model):
 
 # Main Server: Main Server , Ebox server 
 class MainServer(models.Model):
-    # author = models.ForeignKey('auth.User')
-    created_date = models.DateTimeField(default=timezone.now)
-    sitename = models.CharField(max_length=20)
-    status = models.CharField(max_length=3, default='OK')
-    ipaddr = '127.0.0.1'
+    sitename = models.CharField(max_length=17)
+    zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
+    hostid = models.IntegerField(default=99999)
+    hostname = models.CharField(max_length=20, default='main-server')
+    ipaddr = models.GenericIPAddressField(default='127.0.0.1')
+    zitem_ping_val = models.SmallIntegerField(default=0)
+    zitem_ping_ts = models.IntegerField(default=1519398497)
+    status = models.CharField(max_length=7, default='OK')
 
-    # Is ping UP?
-    def  is_ping(self):
-        is_ping = True
-        return is_ping
 
     def __str__(self):
-        return self.sitename
+        return self.hostname

@@ -1,3 +1,4 @@
+#!/home/vladvv/PycharmProjects/master-checking/myvenv/bin/python
 # coding=utf-8
 
 
@@ -12,11 +13,16 @@
 '''
 
 
+# To solve exception "Apps aren't loaded yet"
+import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'masterc.settings'
+import django
+django.setup()
+
 from pyzabbix import ZabbixAPI, ZabbixAPIException
-import sys
 import time, configparser, ephem
 import datetime as dt
-# from mtable.models import MasterSite
+from mtable.models import MainServer
 
 script_name = 'get_zitem.py'
 scipt_version = 'v.0.0.2_20180221'
@@ -24,7 +30,7 @@ cfg_path = 'etc/zbsrv.cfg'
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
 zbsrv = 'MASTER-Zabbix-Server-3'
-hostid = 10120
+host_id = 10105
 item = 'ICMP ping'
 
 
@@ -87,10 +93,10 @@ def get_diff_time(ts):
     """
 
     ts_utc = dt.datetime.utcfromtimestamp(ts)
-    #print(ts_utc)
+    print(ts_utc)
 
     now_utc = dt.datetime.utcnow()
-    #print(now_utc)
+    print(now_utc)
 
     diff_time = int((now_utc - ts_utc).total_seconds())
     # print(diff_time)
@@ -98,24 +104,40 @@ def get_diff_time(ts):
     return diff_time
 
 
+def get_host_status(ping_lastvalue, ping_lastclock):
+    """
+    Calculate and return host_status, based on difference parameters
+    :param ping_lastvalue: ping_lastvalue
+    :param ping_lastclock:
+    :return status: host status
+    """
 
-if __name__ == '__main__':
-
-    item_lastvalue, item_lastclock = get_zitem(zbsrv, hostid, item)
-    print(item_lastclock)
-    print(item_lastvalue)
-
-    diff_time = get_diff_time(item_lastclock)
+    diff_time = get_diff_time(ping_lastclock)
     print(diff_time)
 
-
-    if diff_time < reason_time and item_lastvalue == 1:
-        status = 'on'
-    elif diff_time < reason_time and item_lastvalue == 0:
-        status = 'off'
+    if diff_time < reason_time and ping_lastvalue == 1:
+        status = 'OK'
+    elif diff_time < reason_time and ping_lastvalue == 0:
+        status = 'NO'
     else:
         status = 'outdated'
 
-    print(status)
+    return status
 
-    # item_to_db
+
+
+if __name__ == '__main__':
+
+    item_lastvalue, item_lastts = get_zitem(zbsrv, host_id, item)
+    print(item_lastts)
+    print(item_lastvalue)
+
+    host_status = get_host_status(item_lastvalue, item_lastts)
+    print(host_status)
+
+    # Write ping_lastvalue, ping_lastclock, to db.SQLite3
+    s = MainServer.objects.get(hostid=host_id)
+    s.zitem_ping_val = item_lastvalue
+    s.zitem_ping_ts = item_lastts
+    s.status = host_status
+    s.save()
