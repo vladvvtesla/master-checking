@@ -8,6 +8,4 @@ db.sqlite3
 mtable/migrations
 /static
 .DS_Store
-obs.cfg
-sitestodb.py
 .idea

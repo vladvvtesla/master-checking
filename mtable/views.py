@@ -1,16 +1,51 @@
 from django.shortcuts import render
 from .models import MasterSite, MainServer
+# Register View
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import UserCreationForm
+
 
 # Create your views here.
 
 # Main_table view
 def main_table(request):
-    master_sites = MasterSite.objects.order_by('sitename')
-    return render(request, 'mtable/main_table.html', {'master_sites': master_sites})
+    m_sites = MasterSite.objects.order_by('sitename')
+    amur_site = MasterSite.objects.filter(sitename = 'MASTER-Amur')
+    tunka_site = MasterSite.objects.filter(sitename = 'MASTER-Tunka')
+    kislo_site = MasterSite.objects.filter(sitename = 'MASTER-Kislovodsk')
+    tavr_site = MasterSite.objects.filter(sitename = 'MASTER-Tavrida')
+    saao_site = MasterSite.objects.filter(sitename = 'MASTER-SAAO')
+    iac_site = MasterSite.objects.filter(sitename = 'MASTER-IAC')
+    oafa_site = MasterSite.objects.filter(sitename = 'MASTER-OAFA')
 
-# Register View
-from django.views.generic.edit import FormView
-from django.contrib.auth.forms import UserCreationForm
+
+    amur_msrv = MainServer.objects.filter(sitename = 'MASTER-Amur')
+    tunka_msrv = MainServer.objects.filter(sitename = 'MASTER-Tunka')
+    kislo_msrv = MainServer.objects.filter(sitename = 'MASTER-Kislovodsk')
+    tavr_msrv = MainServer.objects.filter(sitename = 'MASTER-Tavrida')
+    saao_msrv = MainServer.objects.filter(sitename = 'MASTER-SAAO')
+    iac_msrv = MainServer.objects.filter(sitename = 'MASTER-IAC')
+    oafa_msrv = MainServer.objects.filter(sitename = 'MASTER-OAFA')
+
+
+    return render(request, 'mtable/main_table.html', {  'sites_site': m_sites,
+                                                        'amur_site': amur_site[0],
+                                                        'tunka_site': tunka_site[0],
+                                                        'kislo_site': kislo_site[0],
+                                                        'tavr_site': tavr_site[0],
+                                                        'saao_site': saao_site[0],
+                                                        'iac_site': iac_site[0],
+                                                        'oafa_site': oafa_site[0] ,
+                                                    'amur_msrv': amur_msrv[0],
+                                                    'tunka_msrv': tunka_msrv[0],
+                                                    'kislo_msrv': kislo_msrv[0],
+                                                    'tavr_msrv': tavr_msrv[0],
+                                                    'saao_msrv': saao_msrv[0],
+                                                    'iac_msrv': iac_msrv[0],
+                                                    'oafa_msrv': oafa_msrv[0]
+                                                        } )
+
+
 
 class RegisterFormView(FormView):
     form_class = UserCreationForm

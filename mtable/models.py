@@ -21,6 +21,7 @@ class MasterSite(models.Model):
 # Main Server: Main Server , Ebox server 
 class MainServer(models.Model):
     sitename = models.CharField(max_length=17)
+    maintenance = models.BooleanField(default=False)
     zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
     hostid = models.IntegerField(default=99999)
     hostname = models.CharField(max_length=20, default='main-server')
