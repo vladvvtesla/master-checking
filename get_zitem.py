@@ -122,9 +122,30 @@ def get_host_status(ping_lastvalue, ping_lastclock):
     elif diff_time < reason_time and ping_lastvalue == 0:
         status = 'NO'
     else:
-        status = 'outdated'
+        status = 'expired'
 
     return status
+
+
+def get_host_statusclass(status='expired'):
+    """
+    Mappint status to statusclass, success, warning, danger, etc
+    :param status: ON, OFF, maintenace, etc
+    :return statusclass: success, warning, danger, etc
+    """
+
+    if status == 'OK':
+        statusclass = "table-success"
+    elif status == 'OFF':
+        statusclass = "table-danger"
+    elif status == 'expired':
+        statusclass = "table-warning"
+    elif status == 'maintenance':
+        statusclass = "table-info"
+    else:
+        statusclass = 'table-info'
+
+    return statusclass
 
 
 
@@ -142,20 +163,15 @@ if __name__ == '__main__':
 
         host_status = get_host_status(item_lastvalue, item_lastts)
         print(host_status)
+
+        host_statusclass = get_host_statusclass(host_status)
+        print(host_statusclass)
         print()
 
         # srv = MainServer.objects.get(hostid=host_id)
         srv.zitem_ping_val = item_lastvalue
         srv.zitem_ping_ts = item_lastts
         srv.status = host_status
+        srv.statusclass = host_statusclass
         srv.save()
-
-    # item_lastvalue, item_lastts = get_zitem(zbsrv, host_id, item)
-    # print(item_lastts)
-    # print(item_lastvalue)
-
-    # host_status = get_host_status(item_lastvalue, item_lastts)
-    # print(host_status)
-
-    # Write ping_lastvalue, ping_lastclock, to db.SQLite3
 

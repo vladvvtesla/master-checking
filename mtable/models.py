@@ -6,7 +6,7 @@ from django.utils import timezone
 class MasterSite(models.Model):
     # author = models.ForeignKey('auth.User')
     created_date = models.DateTimeField(default=timezone.now)
-    sitename = models.CharField(max_length=20)
+    sitename = models.CharField(max_length=14)
     lat = models.CharField(max_length=20, null=True, blank=True)
     lon = models.CharField(max_length=20, null=True, blank=True)
     elev = models.CharField(max_length=20, null=True, blank=True)
@@ -20,15 +20,16 @@ class MasterSite(models.Model):
 
 # Main Server: Main Server , Ebox server 
 class MainServer(models.Model):
-    sitename = models.CharField(max_length=17)
+    sitename = models.CharField(max_length=14)
     maintenance = models.BooleanField(default=False)
     zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
     hostid = models.IntegerField(default=99999)
-    hostname = models.CharField(max_length=20, default='main-server')
+    hostname = models.CharField(max_length=35, default='main-server')
     ipaddr = models.GenericIPAddressField(default='127.0.0.1')
     zitem_ping_val = models.SmallIntegerField(default=0)
     zitem_ping_ts = models.IntegerField(default=1519398497)
     status = models.CharField(max_length=7, default='OK')
+    statusclass = models.CharField(max_length=13, default='table-info')
 
 
     def __str__(self):
