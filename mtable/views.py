@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import MasterSite, MainServer
+from .models import MasterSite, MainServer, Head
 # Register View
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
@@ -18,7 +18,6 @@ def main_table(request):
     iac_site = MasterSite.objects.filter(sitename = 'MASTER-IAC')
     oafa_site = MasterSite.objects.filter(sitename = 'MASTER-OAFA')
 
-
     amur_msrv = MainServer.objects.filter(sitename = 'MASTER-Amur')
     tunka_msrv = MainServer.objects.filter(sitename = 'MASTER-Tunka')
     kislo_msrv = MainServer.objects.filter(sitename = 'MASTER-Kislovodsk')
@@ -27,6 +26,13 @@ def main_table(request):
     iac_msrv = MainServer.objects.filter(sitename = 'MASTER-IAC')
     oafa_msrv = MainServer.objects.filter(sitename = 'MASTER-OAFA')
 
+    amur_head = Head.objects.filter(sitename = 'MASTER-Amur')
+    tunka_head = Head.objects.filter(sitename = 'MASTER-Tunka')
+    kislo_head = Head.objects.filter(sitename = 'MASTER-Kislovodsk')
+    tavr_head = Head.objects.filter(sitename = 'MASTER-Tavrida')
+    saao_head = Head.objects.filter(sitename = 'MASTER-SAAO')
+    iac_head = Head.objects.filter(sitename = 'MASTER-IAC')
+    oafa_head = Head.objects.filter(sitename = 'MASTER-OAFA')
 
     return render(request, 'mtable/main_table.html', {  'sites_site': m_sites,
                                                         'amur_site': amur_site[0],
@@ -35,14 +41,21 @@ def main_table(request):
                                                         'tavr_site': tavr_site[0],
                                                         'saao_site': saao_site[0],
                                                         'iac_site': iac_site[0],
-                                                        'oafa_site': oafa_site[0] ,
-                                                    'amur_msrv': amur_msrv[0],
-                                                    'tunka_msrv': tunka_msrv[0],
-                                                    'kislo_msrv': kislo_msrv[0],
-                                                    'tavr_msrv': tavr_msrv[0],
-                                                    'saao_msrv': saao_msrv[0],
-                                                    'iac_msrv': iac_msrv[0],
-                                                    'oafa_msrv': oafa_msrv[0]
+                                                        'oafa_site': oafa_site[0],
+                                                'amur_msrv': amur_msrv[0],
+                                                'tunka_msrv': tunka_msrv[0],
+                                                'kislo_msrv': kislo_msrv[0],
+                                                'tavr_msrv': tavr_msrv[0],
+                                                'saao_msrv': saao_msrv[0],
+                                                'iac_msrv': iac_msrv[0],
+                                                'oafa_msrv': oafa_msrv[0],
+                                                        'amur_head': amur_head[0],
+                                                        'tunka_head': tunka_head[0],
+                                                        'kislo_head': kislo_head[0],
+                                                        'tavr_head': tavr_head[0],
+                                                        'saao_head': saao_head[0],
+                                                        'iac_head': iac_head[0],
+                                                        'oafa_head': oafa_head[0],
                                                         } )
 
 

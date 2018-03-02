@@ -16,17 +16,18 @@
 # To solve exception "Apps aren't loaded yet"
 import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'masterc.settings'
+
 import django
 django.setup()
 
 from pyzabbix import ZabbixAPI, ZabbixAPIException
-import time, configparser, ephem
+import configparser
 import datetime as dt
 from mtable.models import MainServer
 
-script_name = 'get_zitem.py'
-scipt_version = 'v.0.0.2_20180221'
-cfg_path = 'etc/zbsrv.cfg'
+script_name = 'get_zitem_mainsrv.py'
+scipt_version = 'v.1.0_20180302'
+cfg_path = "../etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
 zbsrv = 'MASTER-Zabbix-Server-3'
