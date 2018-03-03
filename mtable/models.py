@@ -7,13 +7,12 @@ class MasterSite(models.Model):
     # author = models.ForeignKey('auth.User')
     created_date = models.DateTimeField(default=timezone.now)
     sitename = models.CharField(max_length=14)
-    lat = models.CharField(max_length=20, null=True, blank=True)
-    lon = models.CharField(max_length=20, null=True, blank=True)
-    elev = models.CharField(max_length=20, null=True, blank=True)
+    lat = models.CharField(max_length=12, null=True, blank=True)
+    lon = models.CharField(max_length=12, null=True, blank=True)
+    elev = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
     website = models.URLField(max_length=30, null=True, blank=True)
-
-    def  sun_alt(self):
-        return '45'
+    sun_alt = models.SmallIntegerField(default=0, null=True, blank=True)
+    sun_alt_stclass = models.CharField(max_length=13, default='table-info')
 
     def __str__(self):
         return self.sitename
