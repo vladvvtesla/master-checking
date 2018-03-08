@@ -40,9 +40,26 @@ class Head(models.Model):
     maintenance = models.BooleanField(default=False)
     zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
     hostid = models.IntegerField(default=99999)
-    hostname = models.CharField(max_length=12, default='main-server')
+    hostname = models.CharField(max_length=12, default='amur-head')
     zitem_task_val = models.CharField(max_length=7)
     zitem_task_ts = models.IntegerField(default=1519398497)
+    status = models.CharField(max_length=7, default='OK')
+    statusclass = models.CharField(max_length=13, default='table-info')
+
+
+    def __str__(self):
+        return self.hostname
+
+
+# Mount: Mount Head, Mount Head, etc
+class Mount(models.Model):
+    sitename = models.CharField(max_length=14)
+    maintenance = models.BooleanField(default=False)
+    zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
+    hostid = models.IntegerField(default=99999)
+    hostname = models.CharField(max_length=12, default='amur-mount')
+    zi_mstat_val = models.CharField(max_length=7)
+    zi_mstat_ts = models.IntegerField(default=1519398497)
     status = models.CharField(max_length=7, default='OK')
     statusclass = models.CharField(max_length=13, default='table-info')
 

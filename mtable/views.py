@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import MasterSite, MainServer, Head
+from .models import MasterSite, MainServer, Head, Mount
 # Register View
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
@@ -10,6 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 # Main_table view
 def main_table(request):
     m_sites = MasterSite.objects.order_by('sitename')
+
     amur_site = MasterSite.objects.filter(sitename = 'MASTER-Amur')
     tunka_site = MasterSite.objects.filter(sitename = 'MASTER-Tunka')
     kislo_site = MasterSite.objects.filter(sitename = 'MASTER-Kislovodsk')
@@ -34,6 +35,14 @@ def main_table(request):
     iac_head = Head.objects.filter(sitename = 'MASTER-IAC')
     oafa_head = Head.objects.filter(sitename = 'MASTER-OAFA')
 
+    amur_mount = Mount.objects.filter(sitename = 'MASTER-Amur')
+    tunka_mount = Mount.objects.filter(sitename = 'MASTER-Tunka')
+    kislo_mount = Mount.objects.filter(sitename = 'MASTER-Kislovodsk')
+    tavr_mount = Mount.objects.filter(sitename = 'MASTER-Tavrida')
+    saao_mount = Mount.objects.filter(sitename = 'MASTER-SAAO')
+    iac_mount = Mount.objects.filter(sitename = 'MASTER-IAC')
+    oafa_mount = Mount.objects.filter(sitename = 'MASTER-OAFA')
+
     return render(request, 'mtable/main_table.html', {  'sites_site': m_sites,
                                                         'amur_site': amur_site[0],
                                                         'tunka_site': tunka_site[0],
@@ -56,6 +65,13 @@ def main_table(request):
                                                         'saao_head': saao_head[0],
                                                         'iac_head': iac_head[0],
                                                         'oafa_head': oafa_head[0],
+                                                'amur_mount': amur_mount[0],
+                                                'tunka_mount': tunka_mount[0],
+                                                'kislo_mount': kislo_mount[0],
+                                                'tavr_mount': tavr_mount[0],
+                                                'saao_mount': saao_mount[0],
+                                                'iac_mount': iac_mount[0],
+                                                'oafa_mount': oafa_mount[0],
                                                         } )
 
 
