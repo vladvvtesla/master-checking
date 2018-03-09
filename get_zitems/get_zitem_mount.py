@@ -26,8 +26,9 @@ import datetime as dt
 from mtable.models import Mount
 
 script_name = 'get_zitem_mount.py'
-scipt_version = 'v.0.1_20180308'
-cfg_path = "../etc/zbsrv.cfg"
+scipt_version = 'v.1.1_20180309'
+cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
+#cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
 zbsrv = 'MASTER-Zabbix-Server-3'
@@ -116,10 +117,11 @@ def get_host_status(lastvalue, lastclock):
     """
 
     diff_time = get_diff_time(lastclock)
-    print(diff_time)
+    # print(diff_time)
 
-    val_to_stat = {0 : "NoConnection",
-                   1 : "READY"}
+    val_to_stat = {0 : "None",
+                   1 : "PARKED",
+                   2 : "READY"}
 
     if diff_time < reason_time:
         status =  val_to_stat[lastvalue]
@@ -138,12 +140,14 @@ def get_host_statusclass(status='expired'):
     :return statusclass: success, warning, danger, etc
     """
 
-    if status == 'READY':
-        statusclass = "table-success"
-    elif status == 'expired':
-        statusclass = "table-warning"
-    elif status == 'maintenance':
-        statusclass = "table-info"
+    st_to_stclass = {'READY' : 'table-success',
+                     'PARKED' : 'table-success',
+                     'expired' : 'table-warning',
+                     'None' : 'table-danger',
+                     'maintenance': 'table-info'}
+
+    if status in st_to_stclass:
+        statusclass =  st_to_stclass[status]
     else:
         statusclass = 'table-info'
 
@@ -155,20 +159,20 @@ if __name__ == '__main__':
 
     hosts = Mount.objects.all()
     for host in hosts:
-        print(host.hostname)
+        # print(host.hostname)
         # print(host.zbsrv)
         # print(host.hostid)
 
         item_lastvalue, item_lastts = get_zitem(host.zbsrv, host.hostid, item_regular)
         # print(item_lastts)
-        print(item_lastvalue)
+        # print(item_lastvalue)
 
         host_status = get_host_status(item_lastvalue, item_lastts)
-        print(host_status)
+        # print(host_status)
 
         host_statusclass = get_host_statusclass(host_status)
-        print(host_statusclass)
-        print()
+        # print(host_statusclass)
+        # print()
 
         # srv = MainServer.objects.get(hostid=host_id)
         host.zi_mstat_val = item_lastvalue

@@ -24,7 +24,7 @@ import ephem
 from mtable.models import MasterSite
 
 script_name = 'sun_alt.py'
-scipt_version = 'v.0.1_20180303'
+script_version = 'v.0.1_20180303'
 
 def sun_altitude(lon, lat):
     """

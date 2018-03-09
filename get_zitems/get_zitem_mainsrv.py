@@ -26,8 +26,9 @@ import datetime as dt
 from mtable.models import MainServer
 
 script_name = 'get_zitem_mainsrv.py'
-scipt_version = 'v.1.0_20180302'
-cfg_path = "../etc/zbsrv.cfg"
+scipt_version = 'v.1.1_20180309'
+cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
+#cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
 zbsrv = 'MASTER-Zabbix-Server-3'
@@ -116,7 +117,7 @@ def get_host_status(ping_lastvalue, ping_lastclock):
     """
 
     diff_time = get_diff_time(ping_lastclock)
-    print(diff_time)
+    # print(diff_time)
 
     if diff_time < reason_time and ping_lastvalue == 1:
         status = 'OK'
@@ -154,20 +155,20 @@ if __name__ == '__main__':
 
     MainServers = MainServer.objects.all()
     for srv in MainServers:
-        print(srv.hostname)
+        # print(srv.hostname)
         # print(srv.zbsrv)
         # print(srv.hostid)
 
         item_lastvalue, item_lastts = get_zitem(srv.zbsrv, srv.hostid, item)
         # print(item_lastts)
-        print(item_lastvalue)
+        # print(item_lastvalue)
 
         host_status = get_host_status(item_lastvalue, item_lastts)
-        print(host_status)
+        # print(host_status)
 
         host_statusclass = get_host_statusclass(host_status)
-        print(host_statusclass)
-        print()
+        # print(host_statusclass)
+        # print()
 
         # srv = MainServer.objects.get(hostid=host_id)
         srv.zitem_ping_val = item_lastvalue
