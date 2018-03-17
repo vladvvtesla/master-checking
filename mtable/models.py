@@ -11,6 +11,7 @@ class MasterSite(models.Model):
     lon = models.CharField(max_length=12, null=True, blank=True)
     elev = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
     website = models.URLField(max_length=30, null=True, blank=True)
+    m2dburl = models.URLField(max_length=30, null=True, blank=True)
     sun_alt = models.SmallIntegerField(default=0, null=True, blank=True)
     sun_alt_stclass = models.CharField(max_length=13, default='table-info')
 
@@ -30,7 +31,6 @@ class MainServer(models.Model):
     status = models.CharField(max_length=7, default='OK')
     statusclass = models.CharField(max_length=13, default='table-info')
 
-
     def __str__(self):
         return self.hostname
 
@@ -45,7 +45,6 @@ class Head(models.Model):
     zitem_task_ts = models.IntegerField(default=1519398497)
     status = models.CharField(max_length=7, default='OK')
     statusclass = models.CharField(max_length=13, default='table-info')
-
 
     def __str__(self):
         return self.hostname
@@ -63,6 +62,26 @@ class Mount(models.Model):
     status = models.CharField(max_length=7, default='OK')
     statusclass = models.CharField(max_length=13, default='table-info')
 
+    def __str__(self):
+        return self.hostname
+
+
+# CCDs
+class Ccd(models.Model):
+    sitename = models.CharField(max_length=14)
+    maintenance = models.BooleanField(default=False)
+    zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
+    hostid = models.IntegerField(default=99999)
+    hostname = models.CharField(max_length=13, default='amur-ccd-west')
+    tube = models.CharField(max_length=4, default='west')
+    last_imobj = models.CharField(max_length=8, default='-')
+    last_imobj_stclass = models.CharField(max_length=13, default='table-info')
+    last_imtime = models.CharField(max_length=19, default='-')
+    last_imtime_stclass = models.CharField(max_length=13, default='table-info')
+    zi_mstat_val = models.CharField(max_length=7)
+    zi_mstat_ts = models.IntegerField(default=1519398497)
+    status = models.CharField(max_length=7, default='OK')
+    statusclass = models.CharField(max_length=13, default='table-info')
 
     def __str__(self):
         return self.hostname

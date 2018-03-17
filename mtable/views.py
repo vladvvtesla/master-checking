@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import MasterSite, MainServer, Head, Mount
+from .models import MasterSite, MainServer, Head, Mount, Ccd
 # Register View
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
@@ -10,6 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 # Main_table view
 def main_table(request):
     m_sites = MasterSite.objects.order_by('sitename')
+    #mcodes = [amur, tunka, kislo, tavr, saao, iac, oafa]
 
     amur_site = MasterSite.objects.filter(sitename = 'MASTER-Amur')
     tunka_site = MasterSite.objects.filter(sitename = 'MASTER-Tunka')
@@ -43,6 +44,23 @@ def main_table(request):
     iac_mount = Mount.objects.filter(sitename = 'MASTER-IAC')
     oafa_mount = Mount.objects.filter(sitename = 'MASTER-OAFA')
 
+    amur_ccdw = Ccd.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'west')
+    tunka_ccdw = Ccd.objects.filter(sitename = 'MASTER-Tunka').filter(tube = 'west')
+    kislo_ccdw = Ccd.objects.filter(sitename = 'MASTER-Kislovodsk').filter(tube = 'west')
+    tavr_ccdw = Ccd.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'west')
+    saao_ccdw = Ccd.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'west')
+    iac_ccdw = Ccd.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'west')
+    oafa_ccdw = Ccd.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'west')
+
+    amur_ccde = Ccd.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'east')
+    tunka_ccde = Ccd.objects.filter(sitename = 'MASTER-Tunka').filter(tube = 'east')
+    kislo_ccde = Ccd.objects.filter(sitename = 'MASTER-Kislovodsk').filter(tube = 'east')
+    tavr_ccde = Ccd.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'east')
+    saao_ccde = Ccd.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'east')
+    iac_ccde = Ccd.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'east')
+    oafa_ccde = Ccd.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'east')
+
+
     return render(request, 'mtable/main_table.html', {  'sites_site': m_sites,
                                                         'amur_site': amur_site[0],
                                                         'tunka_site': tunka_site[0],
@@ -72,6 +90,20 @@ def main_table(request):
                                                 'saao_mount': saao_mount[0],
                                                 'iac_mount': iac_mount[0],
                                                 'oafa_mount': oafa_mount[0],
+                                                        'amur_ccdw': amur_ccdw[0],
+                                                        'tunka_ccdw': tunka_ccdw[0],
+                                                        'kislo_ccdw': kislo_ccdw[0],
+                                                        'tavr_ccdw': tavr_ccdw[0],
+                                                        'saao_ccdw': saao_ccdw[0],
+                                                        'iac_ccdw': iac_ccdw[0],
+                                                        'oafa_ccdw': oafa_ccdw[0],
+                                                'amur_ccde': amur_ccde[0],
+                                                'tunka_ccde': tunka_ccde[0],
+                                                'kislo_ccde': kislo_ccde[0],
+                                                'tavr_ccde': tavr_ccde[0],
+                                                'saao_ccde': saao_ccde[0],
+                                                'iac_ccde': iac_ccde[0],
+                                                'oafa_ccde': oafa_ccde[0],
                                                         } )
 
 

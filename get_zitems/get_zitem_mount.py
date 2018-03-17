@@ -28,7 +28,7 @@ from mtable.models import Mount
 script_name = 'get_zitem_mount.py'
 scipt_version = 'v.1.1_20180309'
 cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
-#cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
+# cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
 zbsrv = 'MASTER-Zabbix-Server-3'
@@ -119,9 +119,10 @@ def get_host_status(lastvalue, lastclock):
     diff_time = get_diff_time(lastclock)
     # print(diff_time)
 
-    val_to_stat = {0 : "None",
-                   1 : "PARKED",
-                   2 : "READY"}
+    val_to_stat = {0 : 'None',
+                   1 : 'PARKED',
+                   2 : 'READY',
+                   3 : 'BUSY'}
 
     if diff_time < reason_time:
         status =  val_to_stat[lastvalue]
@@ -168,7 +169,7 @@ if __name__ == '__main__':
         # print(item_lastvalue)
 
         host_status = get_host_status(item_lastvalue, item_lastts)
-        # print(host_status)
+        print(host_status)
 
         host_statusclass = get_host_statusclass(host_status)
         # print(host_statusclass)
