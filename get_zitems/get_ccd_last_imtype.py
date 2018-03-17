@@ -30,7 +30,6 @@ import configparser
 from lxml import html
 from lxml import etree
 import requests
-from collections import Counter
 
 # To ignore InsecureRequestWarning in stderr
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -40,17 +39,9 @@ from mtable.models import MasterSite, Ccd
 
 
 script_name = 'get_ccd_last_impytpe.py'
-script_version = 'v.0.1_20180310'
-#cfg_path = '/home/vladvv/mscripts/get_focus/env/get_focus/obs.cfg'
-cfg_path = '/home/vladvv/PycharmProjects/get_focus/env/get_focus/obs.cfg'
-htusers_cfg_path = '/home/vladvv/PycharmProjects/master-checking/etc/htusers.cfg'
-# htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
-
-# Parse master_sites configuration file
-config = configparser.ConfigParser()
-config.read(cfg_path)
-sites = config.sections()
-# print(sites)
+script_version = 'v.1.0_20180317'
+htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
+#htusers_cfg_path = '/home/vladvv/PycharmProjects/master-checking/etc/htusers.cfg'
 
 # Parse httpd_users configuration file
 htuconfig = configparser.ConfigParser()
@@ -76,8 +67,6 @@ def get_sun_alt_stclass(sun_alt):
         stclass = "table-info"
 
     return stclass
-
-
 
 
 def m2db(url, user, password):
@@ -114,56 +103,8 @@ def m2db(url, user, password):
     massive = r.content.decode('koi8-r')
     tree = html.fromstring(massive)
 
-    #values = tree.xpath('.//td[@valign = "bottom"]/text()')
-    # print(values[0:18])
-
     return tree
     #return massive
-
-
-"""
-
-# Create dict with exemplars of Class Observatory
-obs_dict = {}
-for site_name in sites:
-    obs_dict[site_name] = Observatory(sites, site_name)
-
-
-#print(obs_dict)
-#print(obs_dict['MASTER-Amur'].url)
-
-modes = ('FOCUS', 'FAULT')
-# modes = ('FOCUS',)
-for site_name in obs_dict:
-    for mode in modes:
-        obs_dict[site_name] = Observatory(sites, site_name)
-        mode_count = obs_dict[site_name].m2db(mode)
-
-
-        print("{} :: {} - {}".format(site_name, mode, mode_count))
-
-        # Если requests.get не смог подключитсья к сайту обсерватории
-        # и m2db() из-за этого вернула строку ошибки, а не число, то ничего не делать
-        if isinstance(mode_count, str):
-            # print("получили строку")
-            pass
-
-        if isinstance(mode_count, int):
-            # print("получили целое")
-
-            if mode == 'FAULT' and mode_count >= 25:
-                subj = 'master checking :: ' + site_name + ' - ' + mode + ' - ' + str(mode_count)
-                text = subj
-                for to_addr in to_addrs:
-                    send_email(from_addr, to_addr, subj, text)
-
-
-            elif mode == 'FOCUS' and mode_count >= 50:
-                subj = 'master checking :: ' + site_name + ' - ' + mode + ' - ' + str(mode_count)
-                text = subj
-                for to_addr in to_addrs:
-                    send_email(from_addr, to_addr, subj, text)
-"""
 
 
 def get_table_dict(tree):
@@ -181,30 +122,22 @@ def get_table_dict(tree):
 
     values = tree.xpath('.//tr[@class="n"]')
 
-    # for row in values:
-    # print(etree.tostring(row))
     for bytestring in values:
         # Delete html-tags 'sup' from Coord Column
         f = etree.strip_tags(bytestring, 'sup')
         # Get a 'bytes' object which includes bytestring
         elem = etree.tostring(bytestring)
-        # print(elem)
         # Get a string for parsing
         row_list = etree.XML(elem)
-        # print(row_list)
         # list of image attributes
         imattrs = []
         for cell in row_list.iter('td', 'p', 'small'):
             if cell.text is not None:
                 # print("%s - %s" % (cell.tag, cell.text))
                 imattrs.append(cell.text)
-        # print(imattrs)
         row_dict = dict(zip(heads, imattrs))
-        #print(row_dict)
         # Create a table_dict, where key is a im_id, and value is row_dict
-        #print(row_dict['im_id'])
         table_dict[row_dict['im_id']] = row_dict
-        #print()
 
     return table_dict
 
@@ -259,8 +192,8 @@ def get_limattr(url, user, password, sitename, tube, attr):
     :return imattr:  the latest image id
     """
 
-    print(name)
-    print(url)
+    #print(name)
+    #print(url)
     tree = m2db(url, user, password)
     # print(page)
 
@@ -269,7 +202,7 @@ def get_limattr(url, user, password, sitename, tube, attr):
     except:
         site_table_dict = {}
 
-    print(site_table_dict)
+    # print(site_table_dict)
 
     # Get a last EAST and WEST Image dict (sort by im_id)
     # If there isn't EAST or WEST Image, send alert and imobj-class = table-danger
@@ -277,10 +210,8 @@ def get_limattr(url, user, password, sitename, tube, attr):
     # w_lastimid = get_lastimid(site_table_dict, 'WEST')
 
     if lastimid:
-        #print(lastimid)
         imattr = get_imattr(site_table_dict, lastimid, attr)
     else:
-        print("There are no {} images!".format(tube))
         imattr = '-'
 
     return imattr
@@ -298,46 +229,35 @@ def get_limobj_stclass(limobj):
 
 if __name__ == '__main__':
 
-    #heads = {'im_id': None, 'im_date_time': None, 'im_coord': None, 'im_exp': None, 'im_object': None, 'image_type': None, 'im_tube': None, 'im_file_path': None, 'im_ccd_temp': None, 'im_filter': None}
-    # List of table column heas
-
-
     sites = MasterSite.objects.all()
     ccds = Ccd.objects.all()
+
     for s in sites:
         name = s.sitename
         url = s.m2dburl
 
-
-        # if 'tavrida' in url:
         #Made dict with two ccd in each site
         for c in ccds:
             if c.sitename == s.sitename and c.tube == 'west':
                 west_ccd = c
-                #print(c.hostname)
             elif c.sitename == s.sitename and c.tube == 'east':
                 east_ccd = c
-                #print(c.hostname)
 
-        # It is for OAFA, where c.tube = ' '
-        # for c in ccds:
-        #    if c.sitename == s.sitename and c.tube == 'west':
-        #        west_ccd = c
 
         for ccd in (west_ccd, east_ccd):
-            # Get attrs for EAST
-            print(ccd.hostname)
+            # print(ccd.hostname)
             limtime = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_date_time')
             if limtime != '-':
                 limobj = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_object')
             else:
                 limobj = '-'
 
-            print(limtime)
-            print(limobj)
+            # print(limtime)
+            # print(limobj)
             limtime_stclass = get_limtime_stclass(limtime)
             limobj_stclass = get_limobj_stclass(limobj)
-            print()
+            # print()
+
 
             ccd.last_imobj = limobj
             ccd.last_imobj_stclass = limobj_stclass
