@@ -5,8 +5,8 @@
 '''
 # Документация на masterwiki - http://46.101.237.78/tiki/tiki-index.php?page=MASTERCheckList
 1. Составить get  запрос к zabbix-серверу.
-2. Этому запросу передать host, например, iac-main-сервер, и item,  например, ping
-3. полученное значение item  записать в sqlite3 базу как аттрибут объекта iac-main-сервер.is_ping
+2. Этому запросу передать host, например, iac-mount, и item,  например, mount_status
+3. полученное значение item  записать в sqlite3 базу как аттрибут объекта iac-mount.mountst
 
 4. Зависимости pyzabbix, requests
 (myenv) pip install pyzabbix, requests
@@ -23,18 +23,18 @@ django.setup()
 from pyzabbix import ZabbixAPI, ZabbixAPIException
 import configparser
 import datetime as dt
-from mtable.models import Head
+from mtable.models import Focuser
 
-script_name = 'get_zitem_head.py'
-scipt_version = 'v.1.1_20180309'
+script_name = 'get_zitem_focuser_position.py'
+scipt_version = 'v.1.0_20180325'
 cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
 #cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
-item_regular = 'head_status'
+item_regular = 'focuser_position'
 
 
-def get_zitem(zbsrv, hostid, item):
+def get_zitem(zbsrv, hostid, item_regular):
     """
     Make a GET.request to ZABBIX.API by pyzabbix ,
     and return a result of request
@@ -75,14 +75,9 @@ def get_zitem(zbsrv, hostid, item):
     for item in items:
         # print(item)
         if item_regular in item['name']:
-            # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
-            item_id = item['itemid']
-            item_name = item['name']
-            item_lastvalue = int(item['lastvalue'])
+            #print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
+            item_lastvalue = int(float(item['lastvalue']))
             item_lastts = int(item['lastclock'])
-        # else:
-        #    item_lastvalue = 0
-        #    item_lastts = 0
 
     return (item_lastvalue, item_lastts)
 
@@ -93,7 +88,6 @@ def get_diff_time(ts):
     :param ts: other timestamp
     :return diff_time: difference in secconds
     """
-
     ts_utc = dt.datetime.utcfromtimestamp(ts)
     # print(ts_utc)
 
@@ -106,7 +100,7 @@ def get_diff_time(ts):
     return diff_time
 
 
-def get_host_status(lastvalue, lastclock):
+def get_host_status(lastvalue, lastclock, maintenance):
     """
     Calculate and return host_status, based on difference parameters
     :param lastvalue: lastvalue
@@ -117,21 +111,10 @@ def get_host_status(lastvalue, lastclock):
     diff_time = get_diff_time(lastclock)
     # print(diff_time)
 
-    val_to_stat = {0 : "NoConnection",
-                   1 : "Unknown",
-                   2 : "Parked",
-                   3 : "Free",
-                   4 : "FOCUS",
-                   5 : "BIAS",
-                   6 : "DARK",
-                   7 : "FLAT",
-                   8 : "Moon",
-                   9 : "Survey",
-                   10 : "Inspect",
-                   11 : "Alert"}
-
-    if diff_time < reason_time:
-        status =  val_to_stat[lastvalue]
+    if maintenance == True:
+        status = '-'
+    elif diff_time < reason_time:
+        status =  'OK'
     elif diff_time > reason_time:
         status = 'expired'
     else:
@@ -140,21 +123,21 @@ def get_host_status(lastvalue, lastclock):
     return status
 
 
-def get_host_statusclass(status='expired'):
+def get_host_stclass(status='expired'):
     """
     Mappint status to statusclass, success, warning, danger, etc
     :param status: ON, OFF, maintenace, etc
     :return statusclass: success, warning, danger, etc
     """
 
-    if status == 'expired':
-        statusclass = "table-warning"
-    elif status == 'unknown':
-        statusclass = "table-warning"
-    elif status == 'maintenance':
-        statusclass = "table-info"
+    st_to_stclass = {'OK' : 'table-success',
+                     'expired' : 'table-warning',
+                     '-': 'table-info'}
+
+    if status in st_to_stclass:
+        statusclass =  st_to_stclass[status]
     else:
-        statusclass = 'table-success'
+        statusclass = 'table-info'
 
     return statusclass
 
@@ -162,9 +145,9 @@ def get_host_statusclass(status='expired'):
 
 if __name__ == '__main__':
 
-    Heads = Head.objects.all()
-    for host in Heads:
-        # print(host.hostname)
+    hosts = Focuser.objects.all()
+    for host in hosts:
+        print(host.hostname)
         # print(host.zbsrv)
         # print(host.hostid)
 
@@ -172,17 +155,17 @@ if __name__ == '__main__':
         # print(item_lastts)
         # print(item_lastvalue)
 
-        host_status = get_host_status(item_lastvalue, item_lastts)
-        # print(host_status)
+        host_status = get_host_status(item_lastvalue, item_lastts, host.maintenance)
+        print(host_status)
 
-        host_statusclass = get_host_statusclass(host_status)
+        host_stclass = get_host_stclass(host_status)
         # print(host_statusclass)
         # print()
 
-        # srv = MainServer.objects.get(hostid=host_id)
-        host.zitem_task_val = item_lastvalue
-        host.zitem_task_ts = item_lastts
+        # fp means focuser position
+        host.zi_fpval = item_lastvalue
+        host.zi_fpts = item_lastts
         host.status = host_status
-        host.statusclass = host_statusclass
+        host.stclass = host_stclass
         host.save()
 

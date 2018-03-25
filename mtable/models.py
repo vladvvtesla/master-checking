@@ -85,3 +85,20 @@ class Ccd(models.Model):
 
     def __str__(self):
         return self.hostname
+
+
+# Focusers
+class Focuser(models.Model):
+    sitename = models.CharField(max_length=14)
+    maintenance = models.BooleanField(default=False)
+    zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
+    hostid = models.IntegerField(default=99999)
+    hostname = models.CharField(max_length=13, default='amur-ccd-west')
+    tube = models.CharField(max_length=4, default='west')
+    zi_fpval = models.CharField(max_length=7)
+    zi_fpts = models.IntegerField(default=1519398497)
+    status = models.CharField(max_length=7, default='OK')
+    stclass = models.CharField(max_length=13, default='table-info')
+
+    def __str__(self):
+        return self.hostname

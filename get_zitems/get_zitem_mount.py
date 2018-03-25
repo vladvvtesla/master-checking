@@ -31,8 +31,6 @@ cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
 # cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
-zbsrv = 'MASTER-Zabbix-Server-3'
-host_id = 10105
 item_regular = 'mount_status'
 
 
@@ -82,9 +80,6 @@ def get_zitem(zbsrv, hostid, item):
             item_name = item['name']
             item_lastvalue = int(item['lastvalue'])
             item_lastts = int(item['lastclock'])
-        # else:
-        #    item_lastvalue = 0
-        #    item_lastts = 0
 
     return (item_lastvalue, item_lastts)
 

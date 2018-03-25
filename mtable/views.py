@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import MasterSite, MainServer, Head, Mount, Ccd
+from .models import MasterSite, MainServer, Head, Mount, Ccd, Focuser
 # Register View
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
@@ -60,6 +60,22 @@ def main_table(request):
     iac_ccde = Ccd.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'east')
     oafa_ccde = Ccd.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'east')
 
+    amur_focuserw = Focuser.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'west')
+    tunka_focuserw = Focuser.objects.filter(sitename = 'MASTER-Tunka').filter(tube = 'west')
+    kislo_focuserw = Focuser.objects.filter(sitename = 'MASTER-Kislovodsk').filter(tube = 'west')
+    tavr_focuserw = Focuser.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'west')
+    saao_focuserw = Focuser.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'west')
+    iac_focuserw = Focuser.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'west')
+    oafa_focuserw = Focuser.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'west')
+
+    amur_focusere = Focuser.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'east')
+    tunka_focusere = Focuser.objects.filter(sitename = 'MASTER-Tunka').filter(tube = 'east')
+    kislo_focusere = Focuser.objects.filter(sitename = 'MASTER-Kislovodsk').filter(tube = 'east')
+    tavr_focusere = Focuser.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'east')
+    saao_focusere = Focuser.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'east')
+    iac_focusere = Focuser.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'east')
+    oafa_focusere = Focuser.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'east')
+
 
     return render(request, 'mtable/main_table.html', {  'sites_site': m_sites,
                                                         'amur_site': amur_site[0],
@@ -104,6 +120,20 @@ def main_table(request):
                                                 'saao_ccde': saao_ccde[0],
                                                 'iac_ccde': iac_ccde[0],
                                                 'oafa_ccde': oafa_ccde[0],
+                                                        'amur_focuserw': amur_focuserw[0],
+                                                        'tunka_focuserw': tunka_focuserw[0],
+                                                        'kislo_focuserw': kislo_focuserw[0],
+                                                        'tavr_focuserw': tavr_focuserw[0],
+                                                        'saao_focuserw': saao_focuserw[0],
+                                                        'iac_focuserw': iac_focuserw[0],
+                                                        'oafa_focuserw': oafa_focuserw[0],
+                                                'amur_focusere': amur_focusere[0],
+                                                'tunka_focusere': tunka_focusere[0],
+                                                'kislo_focusere': kislo_focusere[0],
+                                                'tavr_focusere': tavr_focusere[0],
+                                                'saao_focusere': saao_focusere[0],
+                                                'iac_focusere': iac_focusere[0],
+                                                'oafa_focusere': oafa_focusere[0],
                                                         } )
 
 
