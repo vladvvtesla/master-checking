@@ -23,12 +23,13 @@ django.setup()
 from pyzabbix import ZabbixAPI, ZabbixAPIException
 import configparser
 import datetime as dt
+import time
 from mtable.models import Mount
 
 script_name = 'get_zitem_mount.py'
 scipt_version = 'v.1.1_20180309'
 cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
-# cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
+#cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
 item_regular = 'mount_status'
@@ -66,20 +67,24 @@ def get_zitem(zbsrv, hostid, item):
     # print(zbsrv_username)
     # print(zbsrv_pass)
 
-    zapi = ZabbixAPI(ZABBIX_SERVER)
+    zapi = ZabbixAPI(ZABBIX_SERVER, timeout=5)
     zapi.session.verify=False
-    zapi.login(zbsrv_username, zbsrv_pass)
+    try:
+        zapi.login(zbsrv_username, zbsrv_pass)
 
-    items = zapi.item.get(hostids=hostid, output=['itemid', 'name', 'lastvalue', 'lastclock'])
-    # print(items)
-    for item in items:
-        # print(item)
-        if item_regular in item['name']:
-            # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
-            item_id = item['itemid']
-            item_name = item['name']
-            item_lastvalue = int(item['lastvalue'])
-            item_lastts = int(item['lastclock'])
+        items = zapi.item.get(hostids=hostid, output=['itemid', 'name', 'lastvalue', 'lastclock'])
+        # print(items)
+        for item in items:
+            # print(item)
+            if item_regular in item['name']:
+                # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
+                item_lastvalue = int(item['lastvalue'])
+                item_lastts = int(item['lastclock'])
+    # If There is no connection to ZabbixServer
+    except Exception as e:
+        # print('error text', e)
+        item_lastvalue = 503
+        item_lastts = int(time.time())
 
     return (item_lastvalue, item_lastts)
 
@@ -114,7 +119,8 @@ def get_host_status(lastvalue, lastclock):
     diff_time = get_diff_time(lastclock)
     # print(diff_time)
 
-    val_to_stat = {0 : 'None',
+    val_to_stat = {503 : 'NoConn',
+                   0 : 'None',
                    1 : 'PARKED',
                    2 : 'READY',
                    3 : 'BUSY'}
@@ -129,25 +135,26 @@ def get_host_status(lastvalue, lastclock):
     return status
 
 
-def get_host_statusclass(status='expired'):
+def get_host_stclass(status='expired'):
     """
-    Mappint status to statusclass, success, warning, danger, etc
+    Mappint status to stsclass, success, warning, danger, etc
     :param status: ON, OFF, maintenace, etc
-    :return statusclass: success, warning, danger, etc
+    :return stsclass: success, warning, danger, etc
     """
 
     st_to_stclass = {'READY' : 'table-success',
                      'PARKED' : 'table-success',
                      'expired' : 'table-warning',
+                     'NoConn': 'table-warning',
                      'None' : 'table-danger',
                      'maintenance': 'table-info'}
 
     if status in st_to_stclass:
-        statusclass =  st_to_stclass[status]
+        stclass =  st_to_stclass[status]
     else:
-        statusclass = 'table-info'
+        stclass = 'table-info'
 
-    return statusclass
+    return stclass
 
 
 
@@ -166,14 +173,14 @@ if __name__ == '__main__':
         host_status = get_host_status(item_lastvalue, item_lastts)
         print(host_status)
 
-        host_statusclass = get_host_statusclass(host_status)
-        # print(host_statusclass)
+        host_stclass = get_host_stclass(host_status)
+        # print(host_stclass)
         # print()
 
         # srv = MainServer.objects.get(hostid=host_id)
         host.zi_mstat_val = item_lastvalue
         host.zi_mstat_ts = item_lastts
         host.status = host_status
-        host.statusclass = host_statusclass
+        host.stclass = host_stclass
         host.save()
 

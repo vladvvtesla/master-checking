@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import MasterSite, MainServer, Head, Mount, Ccd, Focuser
+from .models import MasterSite, MainServer, Head, Mount, Ccd, Focuser, SecondServer, Ebox
 # Register View
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
@@ -76,6 +76,22 @@ def main_table(request):
     iac_focusere = Focuser.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'east')
     oafa_focusere = Focuser.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'east')
 
+    amur_ssrv = SecondServer.objects.filter(sitename = 'MASTER-Amur')
+    tunka_ssrv = SecondServer.objects.filter(sitename = 'MASTER-Tunka')
+    kislo_ssrv = SecondServer.objects.filter(sitename = 'MASTER-Kislovodsk')
+    tavr_ssrv = SecondServer.objects.filter(sitename = 'MASTER-Tavrida')
+    saao_ssrv = SecondServer.objects.filter(sitename = 'MASTER-SAAO')
+    iac_ssrv = SecondServer.objects.filter(sitename = 'MASTER-IAC')
+    oafa_ssrv = SecondServer.objects.filter(sitename = 'MASTER-OAFA')
+
+    amur_ebox = Ebox.objects.filter(sitename = 'MASTER-Amur')
+    tunka_ebox = Ebox.objects.filter(sitename = 'MASTER-Tunka')
+    kislo_ebox = Ebox.objects.filter(sitename = 'MASTER-Kislovodsk')
+    tavr_ebox = Ebox.objects.filter(sitename = 'MASTER-Tavrida')
+    saao_ebox = Ebox.objects.filter(sitename = 'MASTER-SAAO')
+    iac_ebox = Ebox.objects.filter(sitename = 'MASTER-IAC')
+    oafa_ebox = Ebox.objects.filter(sitename = 'MASTER-OAFA')
+
 
     return render(request, 'mtable/main_table.html', {  'sites_site': m_sites,
                                                         'amur_site': amur_site[0],
@@ -134,6 +150,20 @@ def main_table(request):
                                                 'saao_focusere': saao_focusere[0],
                                                 'iac_focusere': iac_focusere[0],
                                                 'oafa_focusere': oafa_focusere[0],
+                                                        'amur_ssrv': amur_ssrv[0],
+                                                        'tunka_ssrv': tunka_ssrv[0],
+                                                        'kislo_ssrv': kislo_ssrv[0],
+                                                        'tavr_ssrv': tavr_ssrv[0],
+                                                        'saao_ssrv': saao_ssrv[0],
+                                                        'iac_ssrv': iac_ssrv[0],
+                                                        'oafa_ssrv': oafa_ssrv[0],
+                                                'amur_ebox': amur_ebox[0],
+                                                'tunka_ebox': tunka_ebox[0],
+                                                'kislo_ebox': kislo_ebox[0],
+                                                'tavr_ebox': tavr_ebox[0],
+                                                'saao_ebox': saao_ebox[0],
+                                                'iac_ebox': iac_ebox[0],
+                                                'oafa_ebox': oafa_ebox[0],
                                                         } )
 
 

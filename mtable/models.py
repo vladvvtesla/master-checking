@@ -2,6 +2,21 @@ from django.db import models
 from django.utils import timezone
 
 
+# Master Host: General attributes of the alll Master Hosts
+#class MasterHost(models.Model):
+#    sitename = models.CharField(max_length=14)
+#    maintenance = models.BooleanField(default=False)
+#    zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
+#    hostid = models.IntegerField(default=99999)
+#    hostname = models.CharField(max_length=35, default='main-server')
+#    ipaddr = models.GenericIPAddressField(default='127.0.0.1')
+#    status = models.CharField(max_length=7, default='OK')
+#    stclass = models.CharField(max_length=13, default='table-info')
+#
+#    def __str__(self):
+#        return self.hostname
+
+
 # MasterSite: MASTER-SAAO, MASTER-IAC etc
 class MasterSite(models.Model):
     # author = models.ForeignKey('auth.User')
@@ -26,10 +41,10 @@ class MainServer(models.Model):
     hostid = models.IntegerField(default=99999)
     hostname = models.CharField(max_length=35, default='main-server')
     ipaddr = models.GenericIPAddressField(default='127.0.0.1')
-    zitem_ping_val = models.SmallIntegerField(default=0)
-    zitem_ping_ts = models.IntegerField(default=1519398497)
+    zi_pingval = models.SmallIntegerField(default=0)
+    zi_pingts = models.IntegerField(default=1519398497)
     status = models.CharField(max_length=7, default='OK')
-    statusclass = models.CharField(max_length=13, default='table-info')
+    stclass = models.CharField(max_length=13, default='table-info')
 
     def __str__(self):
         return self.hostname
@@ -44,7 +59,7 @@ class Head(models.Model):
     zitem_task_val = models.CharField(max_length=7)
     zitem_task_ts = models.IntegerField(default=1519398497)
     status = models.CharField(max_length=7, default='OK')
-    statusclass = models.CharField(max_length=13, default='table-info')
+    stclass = models.CharField(max_length=13, default='table-info')
 
     def __str__(self):
         return self.hostname
@@ -60,7 +75,7 @@ class Mount(models.Model):
     zi_mstat_val = models.CharField(max_length=7)
     zi_mstat_ts = models.IntegerField(default=1519398497)
     status = models.CharField(max_length=7, default='OK')
-    statusclass = models.CharField(max_length=13, default='table-info')
+    stclass = models.CharField(max_length=13, default='table-info')
 
     def __str__(self):
         return self.hostname
@@ -69,6 +84,7 @@ class Mount(models.Model):
 # CCDs
 class Ccd(models.Model):
     sitename = models.CharField(max_length=14)
+    exists = models.BooleanField(default=False)
     maintenance = models.BooleanField(default=False)
     zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
     hostid = models.IntegerField(default=99999)
@@ -81,7 +97,7 @@ class Ccd(models.Model):
     zi_mstat_val = models.CharField(max_length=7)
     zi_mstat_ts = models.IntegerField(default=1519398497)
     status = models.CharField(max_length=7, default='OK')
-    statusclass = models.CharField(max_length=13, default='table-info')
+    stclass = models.CharField(max_length=13, default='table-info')
 
     def __str__(self):
         return self.hostname
@@ -90,6 +106,7 @@ class Ccd(models.Model):
 # Focusers
 class Focuser(models.Model):
     sitename = models.CharField(max_length=14)
+    exists = models.BooleanField(default=False)
     maintenance = models.BooleanField(default=False)
     zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
     hostid = models.IntegerField(default=99999)
@@ -102,3 +119,42 @@ class Focuser(models.Model):
 
     def __str__(self):
         return self.hostname
+
+
+# Second Server:
+class SecondServer(models.Model):
+    sitename = models.CharField(max_length=14)
+    exists = models.BooleanField(default=False)
+    maintenance = models.BooleanField(default=False)
+    zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
+    hostid = models.IntegerField(default=99999)
+    hostname = models.CharField(max_length=35, default='main-server')
+    ipaddr = models.GenericIPAddressField(default='127.0.0.1')
+    zi_pingval = models.SmallIntegerField(default=0)
+    zi_pingts = models.IntegerField(default=1519398497)
+    status = models.CharField(max_length=7, default='OK')
+    stclass = models.CharField(max_length=13, default='table-info')
+
+    def __str__(self):
+        return self.hostname
+
+
+
+# Ebox server
+class Ebox(models.Model):
+    sitename = models.CharField(max_length=14)
+    exists = models.BooleanField(default=False)
+    maintenance = models.BooleanField(default=False)
+    zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
+    hostid = models.IntegerField(default=99999)
+    hostname = models.CharField(max_length=35, default='main-server')
+    ipaddr = models.GenericIPAddressField(default='127.0.0.1')
+    zi_pingval = models.SmallIntegerField(default=0)
+    zi_pingts = models.IntegerField(default=1519398497)
+    status = models.CharField(max_length=7, default='OK')
+    stclass = models.CharField(max_length=13, default='table-info')
+
+    def __str__(self):
+        return self.hostname
+
+

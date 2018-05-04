@@ -52,23 +52,6 @@ password = htuconfig['user1']['pass']
 
 
 
-def get_sun_alt_stclass(sun_alt):
-    """
-    Get sun_alt_status_class for sun_alt
-    :param sun_alt: Sun Altitude
-    :return stclass:  css-class table-active, table-success etc
-    """
-    alt = int(sun_alt)
-    if alt >= 0:
-        stclass = "table-warning"
-    elif alt < 0:
-        stclass = "table-primary"
-    else:
-        stclass = "table-info"
-
-    return stclass
-
-
 def m2db(url, user, password):
     """
     :return: html content of M2 URL
@@ -245,23 +228,29 @@ if __name__ == '__main__':
 
 
         for ccd in (west_ccd, east_ccd):
-            # print(ccd.hostname)
-            limtime = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_date_time')
-            if limtime != '-':
-                limobj = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_object')
+            if ccd.exists:
+                # print(ccd.hostname)
+                limtime = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_date_time')
+                if limtime != '-':
+                    limobj = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_object')
+                else:
+                    limobj = '-'
+
+                # print(limtime)
+                # print(limobj)
+                limtime_stclass = get_limtime_stclass(limtime)
+                limobj_stclass = get_limobj_stclass(limobj)
+                # print()
             else:
                 limobj = '-'
-
-            # print(limtime)
-            # print(limobj)
-            limtime_stclass = get_limtime_stclass(limtime)
-            limobj_stclass = get_limobj_stclass(limobj)
-            # print()
+                limobj_stclass = 'table-info'
+                limtime = '-'
+                limtime_stclass = 'table-info'
 
 
-            ccd.last_imobj = limobj
-            ccd.last_imobj_stclass = limobj_stclass
             ccd.last_imtime = limtime
             ccd.last_imtime_stclass = limtime_stclass
+            ccd.last_imobj = limobj
+            ccd.last_imobj_stclass = limobj_stclass
             ccd.save()
 

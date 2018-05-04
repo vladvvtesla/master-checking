@@ -23,6 +23,7 @@ django.setup()
 from pyzabbix import ZabbixAPI, ZabbixAPIException
 import configparser
 import datetime as dt
+import time
 from mtable.models import Head
 
 script_name = 'get_zitem_head.py'
@@ -66,23 +67,24 @@ def get_zitem(zbsrv, hostid, item):
     # print(zbsrv_username)
     # print(zbsrv_pass)
 
-    zapi = ZabbixAPI(ZABBIX_SERVER)
+    zapi = ZabbixAPI(ZABBIX_SERVER, timeout=5)
     zapi.session.verify=False
-    zapi.login(zbsrv_username, zbsrv_pass)
+    try:
+        zapi.login(zbsrv_username, zbsrv_pass)
 
-    items = zapi.item.get(hostids=hostid, output=['itemid', 'name', 'lastvalue', 'lastclock'])
-    # print(items)
-    for item in items:
-        # print(item)
-        if item_regular in item['name']:
-            # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
-            item_id = item['itemid']
-            item_name = item['name']
-            item_lastvalue = int(item['lastvalue'])
-            item_lastts = int(item['lastclock'])
-        # else:
-        #    item_lastvalue = 0
-        #    item_lastts = 0
+        items = zapi.item.get(hostids=hostid, output=['itemid', 'name', 'lastvalue', 'lastclock'])
+        # print(items)
+        for item in items:
+            # print(item)
+            if item_regular in item['name']:
+                # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
+                item_lastvalue = int(item['lastvalue'])
+                item_lastts = int(item['lastclock'])
+    # If There is no connection to ZabbixServer
+    except Exception as e:
+        # print('error text', e)
+        item_lastvalue = 503
+        item_lastts = int(time.time())
 
     return (item_lastvalue, item_lastts)
 
@@ -117,7 +119,7 @@ def get_host_status(lastvalue, lastclock):
     diff_time = get_diff_time(lastclock)
     # print(diff_time)
 
-    val_to_stat = {0 : "NoConnection",
+    val_to_stat = {503 : "NoConn",
                    1 : "Unknown",
                    2 : "Parked",
                    3 : "Free",
@@ -131,7 +133,7 @@ def get_host_status(lastvalue, lastclock):
                    11 : "Alert"}
 
     if diff_time < reason_time:
-        status =  val_to_stat[lastvalue]
+        status = val_to_stat[lastvalue]
     elif diff_time > reason_time:
         status = 'expired'
     else:
@@ -140,23 +142,25 @@ def get_host_status(lastvalue, lastclock):
     return status
 
 
-def get_host_statusclass(status='expired'):
+def get_host_stclass(status='expired'):
     """
-    Mappint status to statusclass, success, warning, danger, etc
+    Mappint status to stsclass, success, warning, danger, etc
     :param status: ON, OFF, maintenace, etc
-    :return statusclass: success, warning, danger, etc
+    :return stsclass: success, warning, danger, etc
     """
 
     if status == 'expired':
-        statusclass = "table-warning"
+        stclass = "table-warning"
     elif status == 'unknown':
-        statusclass = "table-warning"
+        stclass = "table-warning"
+    elif status == 'NoConn':
+        stclass = "table-warning"
     elif status == 'maintenance':
-        statusclass = "table-info"
+        stclass = "table-info"
     else:
-        statusclass = 'table-success'
+        stclass = 'table-success'
 
-    return statusclass
+    return stclass
 
 
 
@@ -175,14 +179,14 @@ if __name__ == '__main__':
         host_status = get_host_status(item_lastvalue, item_lastts)
         # print(host_status)
 
-        host_statusclass = get_host_statusclass(host_status)
-        # print(host_statusclass)
-        # print()
+        host_stclass = get_host_stclass(host_status)
+        #print(host_stclass)
+        #print()
 
         # srv = MainServer.objects.get(hostid=host_id)
         host.zitem_task_val = item_lastvalue
         host.zitem_task_ts = item_lastts
         host.status = host_status
-        host.statusclass = host_statusclass
+        host.stclass = host_stclass
         host.save()
 

@@ -24,19 +24,18 @@ from pyzabbix import ZabbixAPI, ZabbixAPIException
 import configparser
 import datetime as dt
 import time
-from mtable.models import MainServer
+from mtable.models import SecondServer
 
-script_name = 'get_zitem_mainsrv.py'
-scipt_version = 'v.1.1_20180309'
+script_name = 'get_zi_ssrv.py'
+scipt_version = 'v.0.1_20180327'
 cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
 #cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
+item_regular = 'ICMP ping'
 
-item = 'ICMP ping'
 
-
-def get_zitem(zbsrv, hostid, item):
+def get_zitem(zbsrv, hostid, item_regular):
     """
     Make a GET.request to ZABBIX.API by pyzabbix ,
     and return a result of request
@@ -58,8 +57,6 @@ def get_zitem(zbsrv, hostid, item):
     else:
         srv = zbsrvs[1]
 
-
-
     ZABBIX_SERVER = 'http://' + config[srv]['zbsrv_ip'] + '/zabbix'
     zbsrv_username = config[srv]['zbsrv_username']
     zbsrv_pass = config[srv]['zbsrv_pass']
@@ -74,13 +71,14 @@ def get_zitem(zbsrv, hostid, item):
         zapi.login(zbsrv_username, zbsrv_pass)
 
         items = zapi.item.get(hostids=hostid, output=['itemid', 'name', 'lastvalue', 'lastclock'])
-        #print(items)
+        # print(items)
         for item in items:
             # print(item)
-            if 'ICMP ping' in item['name']:
+            if item_regular in item['name']:
                 # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
                 item_lastvalue = int(item['lastvalue'])
                 item_lastts = int(item['lastclock'])
+
     # If There is no connection to ZabbixServer
     except Exception as e:
         # print('error text', e)
@@ -109,76 +107,82 @@ def get_diff_time(ts):
     return diff_time
 
 
-def get_host_status(ping_lastvalue, ping_lastclock):
+def get_host_status(lastvalue, lastclock):
     """
     Calculate and return host_status, based on difference parameters
-    :param ping_lastvalue: ping_lastvalue
-    :param ping_lastclock:
+    :param lastvalue: lastvalue
+    :param lastclock: lastclock
     :return status: host status
     """
 
-    diff_time = get_diff_time(ping_lastclock)
+    diff_time = get_diff_time(lastclock)
     # print(diff_time)
 
-    if diff_time < reason_time and ping_lastvalue == 1:
-        status = 'OK'
-    elif diff_time < reason_time and ping_lastvalue == 0:
-        status = 'NO'
-    elif diff_time < reason_time and ping_lastvalue == 503:
-        status = 'NoConn'
-    else:
+    val_to_stat = {503 : "NoConn",
+                   0 : "NoPing",
+                   1 : "OK"}
+
+    if diff_time < reason_time:
+        status = val_to_stat[lastvalue]
+    elif diff_time > reason_time:
         status = 'expired'
+    else:
+        status = 'unknown'
 
     return status
 
 
 def get_host_stclass(status='expired'):
     """
-    Mappint status to stsclass, success, warning, danger, etc
+    Mapping status to stsclass, success, warning, danger, etc
     :param status: ON, OFF, maintenace, etc
-    :return stsclass: success, warning, danger, etc
+    :return stsclass: table-success, table-warning, table-danger, etc
     """
 
-    if status == 'OK':
-        stclass = "table-success"
-    elif status == 'OFF':
-        stclass = "table-danger"
-    elif status == 'expired':
-        stclass = "table-warning"
-    elif status == 'NoConn':
-        stclass = "table-warning"
-    elif status == 'maintenance':
-        stclass = "table-info"
+    st_to_stclass = {'OK' : 'table-success',
+                     'expired' : 'table-warning',
+                     'NoConn': 'table-warning',
+                     'NoPing' : 'table-danger',
+                     'maintenance': 'table-info'}
+
+    if status in st_to_stclass:
+        stclass = st_to_stclass[status]
     else:
         stclass = 'table-info'
 
     return stclass
 
 
-
 if __name__ == '__main__':
 
-    MainServers = MainServer.objects.all()
-    for srv in MainServers:
-        # print(srv.hostname)
-        # print(srv.zbsrv)
-        # print(srv.hostid)
+    hosts = SecondServer.objects.all()
+    for host in hosts:
+        # print(host.hostname)
+        # print(host.zbsrv)
+        # print(host.hostid)
 
-        item_lastvalue, item_lastts = get_zitem(srv.zbsrv, srv.hostid, item)
-        # print(item_lastts)
-        # print(item_lastvalue)
+        # If device doesn't exist, don't check it
+        if host.exists:
+            item_lastvalue, item_lastts = get_zitem(host.zbsrv, host.hostid, item_regular)
+            # print(item_lastts)
+            # print(item_lastvalue)
 
-        host_status = get_host_status(item_lastvalue, item_lastts)
-        # print(host_status)
+            host_status = get_host_status(item_lastvalue, item_lastts)
+            # print(host_status)
 
-        host_stclass = get_host_stclass(host_status)
-        # print(host_stclass)
-        # print()
+            host_stclass = get_host_stclass(host_status)
+            # print(host_stclass)
+            # print()
+        else:
+            host_status = '-'
+            host_stclass = 'table-info'
+
+
 
         # srv = MainServer.objects.get(hostid=host_id)
-        srv.zi_pingval = item_lastvalue
-        srv.zi_pingts = item_lastts
-        srv.status = host_status
-        srv.stclass = host_stclass
-        srv.save()
+        #host.zitem_task_val = item_lastvalue
+        #host.zitem_task_ts = item_lastts
+        host.status = host_status
+        host.stclass = host_stclass
+        host.save()
 

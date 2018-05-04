@@ -23,6 +23,7 @@ django.setup()
 from pyzabbix import ZabbixAPI, ZabbixAPIException
 import configparser
 import datetime as dt
+import time
 from mtable.models import Focuser
 
 script_name = 'get_zitem_focuser_position.py'
@@ -66,18 +67,24 @@ def get_zitem(zbsrv, hostid, item_regular):
     # print(zbsrv_username)
     # print(zbsrv_pass)
 
-    zapi = ZabbixAPI(ZABBIX_SERVER)
+    zapi = ZabbixAPI(ZABBIX_SERVER, timeout=5)
     zapi.session.verify=False
-    zapi.login(zbsrv_username, zbsrv_pass)
+    try:
+        zapi.login(zbsrv_username, zbsrv_pass)
 
-    items = zapi.item.get(hostids=hostid, output=['itemid', 'name', 'lastvalue', 'lastclock'])
-    # print(items)
-    for item in items:
-        # print(item)
-        if item_regular in item['name']:
-            #print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
-            item_lastvalue = int(float(item['lastvalue']))
-            item_lastts = int(item['lastclock'])
+        items = zapi.item.get(hostids=hostid, output=['itemid', 'name', 'lastvalue', 'lastclock'])
+        # print(items)
+        for item in items:
+            # print(item)
+            if item_regular in item['name']:
+                #print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
+                item_lastvalue = int(float(item['lastvalue']))
+                item_lastts = int(item['lastclock'])
+    # If There is no connection to ZabbixServer
+    except Exception as e:
+        # print('error text', e)
+        item_lastvalue = 503
+        item_lastts = int(time.time())
 
     return (item_lastvalue, item_lastts)
 
@@ -125,9 +132,9 @@ def get_host_status(lastvalue, lastclock, maintenance):
 
 def get_host_stclass(status='expired'):
     """
-    Mappint status to statusclass, success, warning, danger, etc
+    Mappint status to stsclass, success, warning, danger, etc
     :param status: ON, OFF, maintenace, etc
-    :return statusclass: success, warning, danger, etc
+    :return stsclass: success, warning, danger, etc
     """
 
     st_to_stclass = {'OK' : 'table-success',
@@ -135,11 +142,11 @@ def get_host_stclass(status='expired'):
                      '-': 'table-info'}
 
     if status in st_to_stclass:
-        statusclass =  st_to_stclass[status]
+        stclass =  st_to_stclass[status]
     else:
-        statusclass = 'table-info'
+        stclass = 'table-info'
 
-    return statusclass
+    return stclass
 
 
 
@@ -147,24 +154,30 @@ if __name__ == '__main__':
 
     hosts = Focuser.objects.all()
     for host in hosts:
-        print(host.hostname)
-        # print(host.zbsrv)
-        # print(host.hostid)
+        if host.exists:
+            # print(host.hostname)
+            # print(host.zbsrv)
+            # print(host.hostid)
 
-        item_lastvalue, item_lastts = get_zitem(host.zbsrv, host.hostid, item_regular)
-        # print(item_lastts)
-        # print(item_lastvalue)
+            item_lastvalue, item_lastts = get_zitem(host.zbsrv, host.hostid, item_regular)
+            # print(item_lastts)
+            # print(item_lastvalue)
 
-        host_status = get_host_status(item_lastvalue, item_lastts, host.maintenance)
-        print(host_status)
+            host_status = get_host_status(item_lastvalue, item_lastts, host.maintenance)
+            # print(host_status)
 
-        host_stclass = get_host_stclass(host_status)
-        # print(host_statusclass)
-        # print()
+            host_stclass = get_host_stclass(host_status)
+            # print(host_stclass)
+            # print()
+
+            host.zi_fpval = item_lastvalue
+            host.zi_fpts = item_lastts
+
+        else:
+            host_status = '-'
+            host_stclass = 'table-info'
 
         # fp means focuser position
-        host.zi_fpval = item_lastvalue
-        host.zi_fpts = item_lastts
         host.status = host_status
         host.stclass = host_stclass
         host.save()
