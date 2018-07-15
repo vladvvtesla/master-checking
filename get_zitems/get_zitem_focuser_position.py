@@ -28,10 +28,11 @@ from mtable.models import Focuser
 
 script_name = 'get_zitem_focuser_position.py'
 scipt_version = 'v.1.0_20180325'
-cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
-#cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
+#cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
+cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
+item_regular = 'focuser_position'
 item_regular = 'focuser_position'
 
 

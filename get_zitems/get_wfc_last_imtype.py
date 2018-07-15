@@ -4,14 +4,14 @@
 
 """
 # Документация на masterwiki - http://46.101.237.78/tiki/tiki-index.php?page=MASTERCheckList
-1. Из конфиг. файла взять  ccd-master2-url обсерватории
+1. Из конфиг. файла взять  wfc-url обсерватории
 2. подключиться к этому url  по логину и паролю и ответ записать во временный json-file
 3. из json-file вытащить значения
-ccdw_last_imobj,
-ccdw_last_imtime,
-ccde_last_imobj,
-ccde_last_imtime,
-3. полученное значение записать в sqlite3 базу как аттрибут объекта amur_ccdw.last_imobj  и т.д
+wfc111339_last_imobj,
+wfc111339_last_imtime,
+wfc111340_last_imobj,
+wfc111340_last_imtime,
+3. полученное значение записать в sqlite3 базу как аттрибут объекта tunka_wfc111339.last_imobj  и т.д
 
 4. Зависимости, requests, lxml
 (myenv) pip install requests, lxml
@@ -35,11 +35,11 @@ import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-from mtable.models import MasterSite, Ccd
+from mtable.models import MasterSite, WFC
 
 
-script_name = 'get_ccd_last_impytpe.py'
-script_version = 'v.1.0_20180317'
+script_name = 'get_wfc_last_impytpe.py'
+script_version = 'v.0.1_20180630'
 #htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
 htusers_cfg_path = '/home/vladvv/PycharmProjects/master-checking/etc/htusers.cfg'
 
@@ -52,9 +52,9 @@ password = htuconfig['user1']['pass']
 
 
 
-def m2db(url, user, password):
+def wfcpage_tree(url, user, password):
     """
-    :return: html content of M2 URL
+    :return: html content of wfc URL as tree
     """
 
     try:
@@ -125,31 +125,31 @@ def get_table_dict(tree):
     return table_dict
 
 
-def get_lastimid(table_dict, sitename, tube='WEST'):
+def get_lastimid(table_dict, sitename, wfcid='100628'):
     """
     Get the latest image id
     :param table_dict: dict, where key is a image id, and value is dict with image's parameters
-    :param tube: 'WEST' or 'EAST'
+    :param tube: '100628' , '100628', etc
     :return last_im_id:  the latest image id
     """
-    onetubeimdict = {}
+    onewfcimdict = {}
     for key in table_dict.keys():
-        # Special case for MASTER-OAFA, where im_tube=''
-        if sitename == 'MASTER-OAFA' and tube == 'EAST':
-            onetubeimdict[key] = table_dict[key]
-        # For all other sites
-        else:
-            # Del escape characters
-            ttube = ''.join(table_dict[key]['im_tube'].split())
-            if ttube == tube:
-                onetubeimdict[key] = table_dict[key]
+#        # Special case for MASTER-OAFA, where im_tube=''
+#        if sitename == 'MASTER-OAFA' and tube == 'EAST':
+#            onetubeimdict[key] = table_dict[key]
+#        # For all other sites
+#        else:
+        # Del escape characters
+        twfc = ''.join(table_dict[key]['im_tube'].split())
+        if int(twfc) == int(wfcid):
+            onewfcimdict[key] = table_dict[key]
 
-    if onetubeimdict:
-        id = max(onetubeimdict.keys())
+    if onewfcimdict:
+        id = max(onewfcimdict.keys())
     else:
-        id = None
+        id = 10001
 
-    return id
+    return int(id)
 
 
 def get_imattr(table_dict, id, key):
@@ -160,25 +160,25 @@ def get_imattr(table_dict, id, key):
     :param key: Image's attribute, for example. 'im_time', 'im_filter', 'im_tube'
     :return last_im_id:  the latest image id
     """
-    attr = table_dict[id][key]
-    return attr
+    value = table_dict[str(id)][key]
+    return value
 
 
-def get_limattr(url, user, password, sitename, tube, attr):
+def get_limattr(url, user, password, sitename, wfcid, attr):
     """
     Get the lastes image's attribute
-    :param url: URL of master2 images
+    :param url: URL of master wfc images
     :param user: login to URL
     :param password: password
-    :param tube: 'WEST' or 'EAST'
+    :param wfcid: '100628' , '100629', etc
     :param attr: Image's attribute, for example. 'im_time', 'im_filter', 'im_tube'
     :return imattr:  the latest image id
     """
 
     #print(name)
     #print(url)
-    tree = m2db(url, user, password)
-    # print(page)
+    tree = wfcpage_tree(url, user, password)
+    # print(tree)
 
     try:
         site_table_dict = get_table_dict(tree)
@@ -187,15 +187,16 @@ def get_limattr(url, user, password, sitename, tube, attr):
 
     # print(site_table_dict)
 
-    # Get a last EAST and WEST Image dict (sort by im_id)
-    # If there isn't EAST or WEST Image, send alert and imobj-class = table-danger
-    lastimid = get_lastimid(site_table_dict, sitename, tube)
-    # w_lastimid = get_lastimid(site_table_dict, 'WEST')
+    # Get a last 100628 and 100629 Image dict (sort by im_id)
+    # If there isn't 100628 or 100629 Image, send alert and imobj-class = table-danger
+    lastimid = get_lastimid(site_table_dict, sitename, wfcid)
+    # print(lastimid)
 
-    if lastimid:
-        imattr = get_imattr(site_table_dict, lastimid, attr)
-    else:
+    # it lastimid == '-', there is no image from wfcid in the wfcurl. It's error
+    if lastimid == 10001:
         imattr = '-'
+    else:
+        imattr = get_imattr(site_table_dict, lastimid, attr)
 
     return imattr
 
@@ -213,31 +214,32 @@ def get_limobj_stclass(limobj):
 if __name__ == '__main__':
 
     sites = MasterSite.objects.all()
-    ccds = Ccd.objects.all()
+    wfcs = WFC.objects.all()
 
     for s in sites:
         name = s.sitename
-        url = s.m2dburl
+        url = s.wfcurl
 
-        #Made dict with two ccd in each site
-        for c in ccds:
-            if c.sitename == s.sitename and c.tube == 'west':
-                west_ccd = c
-            elif c.sitename == s.sitename and c.tube == 'east':
-                east_ccd = c
+        #Made dict with two wfc in each site
+        for wfc in wfcs:
+            if wfc.sitename == s.sitename and wfc.tube == 'west':
+                west_wfc = wfc
+            elif wfc.sitename == s.sitename and wfc.tube == 'east':
+                east_wfc = wfc
 
-
-        for ccd in (west_ccd, east_ccd):
-            if ccd.exists:
-                # print(ccd.hostname)
-                limtime = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_date_time')
+        for wfc in (west_wfc, east_wfc):
+            if wfc.exists:
+                #print('')
+                #print(wfc.hostname)
+                #print(wfc.wfcid)
+                limtime = get_limattr(url, user, password, wfc.sitename, wfc.wfcid, 'im_date_time')
                 if limtime != '-':
-                    limobj = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_object')
+                    limobj = get_limattr(url, user, password, wfc.sitename, wfc.wfcid, 'im_object')
                 else:
                     limobj = '-'
 
-                # print(limtime)
-                # print(limobj)
+                #print(limtime)
+                #print(limobj)
                 limtime_stclass = get_limtime_stclass(limtime)
                 limobj_stclass = get_limobj_stclass(limobj)
                 # print()
@@ -248,9 +250,9 @@ if __name__ == '__main__':
                 limtime_stclass = 'table-info'
 
 
-            ccd.last_imtime = limtime
-            ccd.last_imtime_stclass = limtime_stclass
-            ccd.last_imobj = limobj
-            ccd.last_imobj_stclass = limobj_stclass
-            ccd.save()
+            wfc.last_imtime = limtime
+            wfc.last_imtime_stclass = limtime_stclass
+            wfc.last_imobj = limobj
+            wfc.last_imobj_stclass = limobj_stclass
+            wfc.save()
 

@@ -5,7 +5,7 @@ fixtures
 etc
 myvenv
 db.sqlite3
-mtable/migrations
+/mtable/migrations
 /static
 .DS_Store
 .idea
