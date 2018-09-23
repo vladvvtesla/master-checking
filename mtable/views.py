@@ -4,7 +4,8 @@
 # from django.views.generic.edit import FormView
 # from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
-from .models import MasterSite, MainServer, Head, Mount, Dome, Ccd, WFC, Filter, Focuser, SecondServer, Ebox
+from .models import MasterSite, MainServer, Head, Mount, Dome, Ccd, WFC, \
+                    Filter, Focuser, SecondServer, Ebox, Actuator
 # Register View
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
@@ -152,6 +153,15 @@ def main_table(request):
     oafa_ebox = Ebox.objects.filter(sitename = 'MASTER-INAOE')
     mexico_ebox = Ebox.objects.filter(sitename='MASTER-Mexico')
 
+    amur_act = Actuator.objects.filter(sitename = 'MASTER-Amur')
+    tunka_act = Actuator.objects.filter(sitename = 'MASTER-Tunka')
+    kislo_act = Actuator.objects.filter(sitename = 'MASTER-Kislovodsk')
+    tavr_act = Actuator.objects.filter(sitename = 'MASTER-Tavrida')
+    saao_act = Actuator.objects.filter(sitename = 'MASTER-SAAO')
+    iac_act = Actuator.objects.filter(sitename = 'MASTER-IAC')
+    oafa_act = Actuator.objects.filter(sitename = 'MASTER-INAOE')
+    mexico_act = Actuator.objects.filter(sitename='MASTER-Mexico')
+
 
     return render(request, 'mtable/main_table.html', {  'sites_site': m_sites,
                                                         'amur_site': amur_site[0],
@@ -274,6 +284,14 @@ def main_table(request):
                                                 'iac_ebox': iac_ebox[0],
                                                 'oafa_ebox': oafa_ebox[0],
                                                 'mexico_ebox': mexico_ebox[0],
+                                                        'amur_act': amur_act[0],
+                                                        'tunka_act': tunka_act[0],
+                                                        'kislo_act': kislo_act[0],
+                                                        'tavr_act': tavr_act[0],
+                                                        'saao_act': saao_act[0],
+                                                        'iac_act': iac_act[0],
+                                                        'oafa_act': oafa_act[0],
+                                                        'mexico_act': mexico_act[0],
                                                         } )
 
 

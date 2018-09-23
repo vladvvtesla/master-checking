@@ -83,276 +83,245 @@
     <tr>
       <th></th>
       <div>
-        <td><a href="">{{ amur_site.sitename }}</a></td>
+        <td colspan=2><a href="">{{ amur_site.sitename }}</a></td>
       </div>
       <div>
-        <td><a href="">{{ tunka_site.sitename }}</a></td>
+        <td colspan=2><a href="">{{ tunka_site.sitename }}</a></td>
       </div>
       <div>
-        <td><a href="">{{ kislo_site.sitename }}</a></td>
+        <td colspan=2><a href="">{{ kislo_site.sitename }}</a></td>
       </div>
       <div>
-        <td><a href="">{{ tavr_site.sitename }}</a></td>
+        <td colspan=2><a href="">{{ tavr_site.sitename }}</a></td>
       </div>
       <div>
-        <td><a href="">{{ saao_site.sitename }}</a></td>
+        <td colspan=2><a href="">{{ saao_site.sitename }}</a></td>
       </div>
       <div>
-        <td><a href="">{{ iac_site.sitename }}</a></td>
+        <td colspan=2><a href="">{{ iac_site.sitename }}</a></td>
       </div>
       <div>
-        <td><a href="">{{ oafa_site.sitename }}</a></td>
+        <td colspan=2><a href="">{{ oafa_site.sitename }}</a></td>
       </div>
       <div>
-        <td><a href="">{{ mexico_site.sitename }}</a></td>
+        <td colspan=2><a href="">{{ mexico_site.sitename }}</a></td>
       </div>
+      <div>
     </tr>
   </thead>
   <tbody>
   <tr>
-      <th scope="row">Sun</th>
-      <td class="{{ amur_site.sun_alt_stclass }}"> {{ amur_site.sun_alt }} </td>
-      <td class="{{ tunka_site.sun_alt_stclass }}"> {{ tunka_site.sun_alt }} </td>
-      <td class="{{ kislo_site.sun_alt_stclass }}"> {{ kislo_site.sun_alt }} </td>
-      <td class="{{ tavr_site.sun_alt_stclass }}"> {{ tavr_site.sun_alt }} </td>
-      <td class="{{ saao_site.sun_alt_stclass }}"> {{ saao_site.sun_alt }} </td>
-      <td class="{{ iac_site.sun_alt_stclass }}"> {{ iac_site.sun_alt }} </td>
-      <td class="{{ oafa_site.sun_alt_stclass }}"> {{ oafa_site.sun_alt }} </td>
-      <td class="{{ mexico_site.sun_alt_stclass }}"> {{ mexico_site.sun_alt }} </td>
-    </tr>
-    <tr>
-      <th scope="row">Head</th>
-      <td class="{{ amur_head.stclass }}"> {{ amur_head.status }} </td>
-      <td class="{{ tunka_head.stclass }}"> {{ tunka_head.status }} </td>
-      <td class="{{ kislo_head.stclass }}"> {{ kislo_head.status }} </td>
-      <td class="{{ tavr_head.stclass }}"> {{ tavr_head.status }} </td>
-      <td class="{{ saao_head.stclass }}"> {{ saao_head.status }} </td>
-      <td class="{{ iac_head.stclass }}"> {{ iac_head.status }} </td>
-      <td class="{{ oafa_head.stclass }}"> {{ oafa_head.status }} </td>
-      <td class="{{ mexico_head.stclass }}"> {{ mexico_head.status }} </td>
-    </tr>
-    <tr>
-      <th scope="row">Dome</th>
+      <th scope="row">Sun/Dome</th>
+      <td class="{{ amur_site.sun_alt_stclass }}"> {{ amur_site.sun_alt }}</td>
       <td class="{{ amur_dome.stclass }}"> {{ amur_dome.zi_dome_val }} </td>
+      <td class="{{ tunka_site.sun_alt_stclass }}"> {{ tunka_site.sun_alt }} </td>
       <td class="{{ tunka_dome.stclass }}"> {{ tunka_dome.zi_dome_val }} </td>
+      <td class="{{ kislo_site.sun_alt_stclass }}"> {{ kislo_site.sun_alt }} </td>
       <td class="{{ kislo_dome.stclass }}"> {{ kislo_dome.zi_dome_val }} </td>
+      <td class="{{ tavr_site.sun_alt_stclass }}"> {{ tavr_site.sun_alt }} </td>
       <td class="{{ tavr_dome.stclass }}"> {{ tavr_dome.zi_dome_val }} </td>
+      <td class="{{ saao_site.sun_alt_stclass }}"> {{ saao_site.sun_alt }} </td>
       <td class="{{ saao_dome.stclass }}"> {{ saao_dome.zi_dome_val }} </td>
+      <td class="{{ iac_site.sun_alt_stclass }}"> {{ iac_site.sun_alt }} </td>
       <td class="{{ iac_dome.stclass }}"> {{ iac_dome.zi_dome_val }} </td>
+      <td class="{{ oafa_site.sun_alt_stclass }}"> {{ oafa_site.sun_alt }} </td>
       <td class="{{ oafa_dome.stclass }}"> {{ oafa_dome.zi_dome_val }} </td>
+      <td class="{{ mexico_site.sun_alt_stclass }}"> {{ mexico_site.sun_alt }} </td>
       <td class="{{ mexico_dome.stclass }}"> {{ mexico_dome.zi_dome_val }} </td>
     </tr>
     <tr>
-      <th scope="row">CCDW</th>
+      <th scope="row">Head</th>
+      <td class="{{ amur_head.stclass }}" colspan=2> {{ amur_head.status }} </td>
+      <td class="{{ tunka_head.stclass }}" colspan=2> {{ tunka_head.status }} </td>
+      <td class="{{ kislo_head.stclass }}" colspan=2> {{ kislo_head.status }} </td>
+      <td class="{{ tavr_head.stclass }}" colspan=2> {{ tavr_head.status }} </td>
+      <td class="{{ saao_head.stclass }}" colspan=2> {{ saao_head.status }} </td>
+      <td class="{{ iac_head.stclass }}" colspan=2> {{ iac_head.status }} </td>
+      <td class="{{ oafa_head.stclass }}" colspan=2> {{ oafa_head.status }} </td>
+      <td class="{{ mexico_head.stclass }}" colspan=2> {{ mexico_head.status }} </td>
+    </tr>
+    <tr>
+      <th scope="row">CCDW/CCDE</th>
       <td class="{{ amur_ccdw.last_imobj_stclass }}"> {{ amur_ccdw.last_imobj }} </td>
-      <td class="{{ tunka_ccdw.last_imobj_stclass }}"> {{ tunka_ccdw.last_imobj }} </td>
-      <td class="{{ kislo_ccdw.last_imobj_stclass }}"> {{ kislo_ccdw.last_imobj }} </td>
-      <td class="{{ tavr_ccdw.last_imobj_stclass }}"> {{ tavr_ccdw.last_imobj }} </td>
-      <td class="{{ saao_ccdw.last_imobj_stclass }}"> {{ saao_ccdw.last_imobj }} </td>
-      <td class="{{ iac_ccdw.last_imobj_stclass }}"> {{ iac_ccdw.last_imobj }} </td>
-      <td class="{{ oafa_ccdw.last_imobj_stclass }}"> {{ oafa_ccdw.last_imobj }} </td>
-      <td class="{{ mexico_ccdw.last_imobj_stclass }}"> {{ mexico_ccdw.last_imobj }} </td>
-    </tr>
-    <tr>
-      <th scope="row">CCDWt</th>
-      <td class="{{ amur_ccdw.last_imtime_stclass }}"> {{ amur_ccdw.last_imtime }} </td>
-      <td class="{{ tunka_ccdw.last_imtime_stclass }}"> {{ tunka_ccdw.last_imtime }} </td>
-      <td class="{{ kislo_ccdw.last_imtime_stclass }}"> {{ kislo_ccdw.last_imtime }} </td>
-      <td class="{{ tavr_ccdw.last_imtime_stclass }}"> {{ tavr_ccdw.last_imtime }} </td>
-      <td class="{{ saao_ccdw.last_imtime_stclass }}"> {{ saao_ccdw.last_imtime }} </td>
-      <td class="{{ iac_ccdw.last_imtime_stclass }}"> {{ iac_ccdw.last_imtime }} </td>
-      <td class="{{ oafa_ccdw.last_imtime_stclass }}"> {{ oafa_ccdw.last_imtime }} </td>
-      <td class="{{ mexico_ccdw.last_imtime_stclass }}"> {{ mexico_ccdw.last_imtime }} </td>
-    </tr>
-    <tr>
-      <th scope="row">CCDE</th>
       <td class="{{ amur_ccde.last_imobj_stclass }}"> {{ amur_ccde.last_imobj }} </td>
+      <td class="{{ tunka_ccdw.last_imobj_stclass }}"> {{ tunka_ccdw.last_imobj }} </td>
       <td class="{{ tunka_ccde.last_imobj_stclass }}"> {{ tunka_ccde.last_imobj }} </td>
+      <td class="{{ kislo_ccdw.last_imobj_stclass }}"> {{ kislo_ccdw.last_imobj }} </td>
       <td class="{{ kislo_ccde.last_imobj_stclass }}"> {{ kislo_ccde.last_imobj }} </td>
+      <td class="{{ tavr_ccdw.last_imobj_stclass }}"> {{ tavr_ccdw.last_imobj }} </td>
       <td class="{{ tavr_ccde.last_imobj_stclass }}"> {{ tavr_ccde.last_imobj }} </td>
+      <td class="{{ saao_ccdw.last_imobj_stclass }}"> {{ saao_ccdw.last_imobj }} </td>
       <td class="{{ saao_ccde.last_imobj_stclass }}"> {{ saao_ccde.last_imobj }} </td>
+      <td class="{{ iac_ccdw.last_imobj_stclass }}"> {{ iac_ccdw.last_imobj }} </td>
       <td class="{{ iac_ccde.last_imobj_stclass }}"> {{ iac_ccde.last_imobj }} </td>
+      <td class="{{ oafa_ccdw.last_imobj_stclass }}"> {{ oafa_ccdw.last_imobj }} </td>
       <td class="{{ oafa_ccde.last_imobj_stclass }}"> {{ oafa_ccde.last_imobj }} </td>
+      <td class="{{ mexico_ccdw.last_imobj_stclass }}"> {{ mexico_ccdw.last_imobj }} </td>
       <td class="{{ mexico_ccde.last_imobj_stclass }}"> {{ mexico_ccde.last_imobj }} </td>
     </tr>
     <tr>
-      <th scope="row">CCDEt</th>
+      <th scope="row">CCDt W/E</th>
+      <td class="{{ amur_ccdw.last_imtime_stclass }}"> {{ amur_ccdw.last_imtime }} </td>
       <td class="{{ amur_ccde.last_imtime_stclass }}"> {{ amur_ccde.last_imtime }} </td>
+      <td class="{{ tunka_ccdw.last_imtime_stclass }}"> {{ tunka_ccdw.last_imtime }} </td>
       <td class="{{ tunka_ccde.last_imtime_stclass }}"> {{ tunka_ccde.last_imtime }} </td>
+      <td class="{{ kislo_ccdw.last_imtime_stclass }}"> {{ kislo_ccdw.last_imtime }} </td>
       <td class="{{ kislo_ccde.last_imtime_stclass }}"> {{ kislo_ccde.last_imtime }} </td>
+      <td class="{{ tavr_ccdw.last_imtime_stclass }}"> {{ tavr_ccdw.last_imtime }} </td>
       <td class="{{ tavr_ccde.last_imtime_stclass }}"> {{ tavr_ccde.last_imtime }} </td>
+      <td class="{{ saao_ccdw.last_imtime_stclass }}"> {{ saao_ccdw.last_imtime }} </td>
       <td class="{{ saao_ccde.last_imtime_stclass }}"> {{ saao_ccde.last_imtime }} </td>
+      <td class="{{ iac_ccdw.last_imtime_stclass }}"> {{ iac_ccdw.last_imtime }} </td>
       <td class="{{ iac_ccde.last_imtime_stclass }}"> {{ iac_ccde.last_imtime }} </td>
+      <td class="{{ oafa_ccdw.last_imtime_stclass }}"> {{ oafa_ccdw.last_imtime }} </td>
       <td class="{{ oafa_ccde.last_imtime_stclass }}"> {{ oafa_ccde.last_imtime }} </td>
+      <td class="{{ mexico_ccdw.last_imtime_stclass }}"> {{ mexico_ccdw.last_imtime }} </td>
       <td class="{{ mexico_ccde.last_imtime_stclass }}"> {{ mexico_ccde.last_imtime }} </td>
     </tr>
     <tr>
-      <th scope="row">WFC1</th>
-      <td class="{{ amur_wfcw.last_imtime_stclass }}"> {{ amur_wfcw.wfcid }} </td>
-      <td class="{{ tunka_wfcw.last_imtime_stclass }}"> {{ tunka_wfcw.wfcid }} </td>
-      <td class="{{ kislo_wfcw.last_imtime_stclass }}"> {{ kislo_wfcw.wfcid }} </td>
-      <td class="{{ tavr_wfcw.last_imtime_stclass }}"> {{ tavr_wfcw.wfcid }} </td>
-      <td class="{{ saao_wfcw.last_imtime_stclass }}"> {{ saao_wfcw.wfcid }} </td>
-      <td class="{{ iac_wfcw.last_imtime_stclass }}"> {{ iac_wfcw.wfcid }} </td>
-      <td class="{{ oafa_wfcw.last_imtime_stclass }}"> {{ oafa_wfcw.wfcid }} </td>
-      <td class="{{ mexico_wfcw.last_imtime_stclass }}"> {{ mexico_wfcw.wfcid }} </td>
-    </tr>
-      <tr>
-      <th scope="row">WFC1t</th>
-      <td class="{{ amur_wfcw.last_imtime_stclass }}"> {{ amur_wfcw.last_imtime }} </td>
-      <td class="{{ tunka_wfcw.last_imtime_stclass }}"> {{ tunka_wfcw.last_imtime }} </td>
-      <td class="{{ kislo_wfcw.last_imtime_stclass }}"> {{ kislo_wfcw.last_imtime }} </td>
-      <td class="{{ tavr_wfcw.last_imtime_stclass }}"> {{ tavr_wfcw.last_imtime }} </td>
-      <td class="{{ saao_wfcw.last_imtime_stclass }}"> {{ saao_wfcw.last_imtime }} </td>
-      <td class="{{ iac_wfcw.last_imtime_stclass }}"> {{ iac_wfcw.last_imtime }} </td>
-      <td class="{{ oafa_wfcw.last_imtime_stclass }}"> {{ oafa_wfcw.last_imtime }} </td>
-      <td class="{{ mexico_wfcw.last_imtime_stclass }}"> {{ mexico_wfcw.last_imtime }} </td>
-    </tr>
-    <tr>
-      <th scope="row">WFC2</th>
-      <td class="{{ amur_wfce.last_imtime_stclass }}"> {{ amur_wfce.wfcid }} </td>
-      <td class="{{ tunka_wfce.last_imtime_stclass }}"> {{ tunka_wfce.wfcid }} </td>
-      <td class="{{ kislo_wfce.last_imtime_stclass }}"> {{ kislo_wfce.wfcid }} </td>
-      <td class="{{ tavr_wfce.last_imtime_stclass }}"> {{ tavr_wfce.wfcid }} </td>
-      <td class="{{ saao_wfce.last_imtime_stclass }}"> {{ saao_wfce.wfcid }} </td>
-      <td class="{{ iac_wfce.last_imtime_stclass }}"> {{ iac_wfce.wfcid }} </td>
-      <td class="{{ oafa_wfce.last_imtime_stclass }}"> {{ oafa_wfce.wfcid }} </td>
-      <td class="{{ mexico_wfce.last_imtime_stclass }}"> {{ mexico_wfce.wfcid }} </td>
-    </tr>
-      <tr>
-      <th scope="row">WFC2t</th>
-      <td class="{{ amur_wfce.last_imtime_stclass }}"> {{ amur_wfce.last_imtime }} </td>
-      <td class="{{ tunka_wfce.last_imtime_stclass }}"> {{ tunka_wfce.last_imtime }} </td>
-      <td class="{{ kislo_wfce.last_imtime_stclass }}"> {{ kislo_wfce.last_imtime }} </td>
-      <td class="{{ tavr_wfce.last_imtime_stclass }}"> {{ tavr_wfce.last_imtime }} </td>
-      <td class="{{ saao_wfce.last_imtime_stclass }}"> {{ saao_wfce.last_imtime }} </td>
-      <td class="{{ iac_wfce.last_imtime_stclass }}"> {{ iac_wfce.last_imtime }} </td>
-      <td class="{{ oafa_wfce.last_imtime_stclass }}"> {{ oafa_wfce.last_imtime }} </td>
-      <td class="{{ mexico_wfce.last_imtime_stclass }}"> {{ mexico_wfce.last_imtime }} </td>
-    </tr>
-    <tr>
-      <th scope="row">Main Server</th>
-      <td class="{{ amur_msrv.stclass }}"> {{ amur_msrv.status }} </td>
-      <td class="{{ tunka_msrv.stclass }}"> {{ tunka_msrv.status }} </td>
-      <td class="{{ kislo_msrv.stclass }}"> {{ kislo_msrv.status }} </td>
-      <td class="{{ tavr_msrv.stclass }}"> {{ tavr_msrv.status }} </td>
-      <td class="{{ saao_msrv.stclass }}"> {{ saao_msrv.status }} </td>
-      <td class="{{ iac_msrv.stclass }}"> {{ iac_msrv.status }} </td>
-      <td class="{{ oafa_msrv.stclass }}"> {{ oafa_msrv.status }} </td>
-      <td class="{{ mexico_msrv.stclass }}"> {{ mexico_msrv.status }} </td>
-    </tr>
-    <tr>
-      <th scope="row">Second Server</th>
-      <td class="{{ amur_ssrv.stclass }}"> {{ amur_ssrv.status }} </td>
-      <td class="{{ tunka_ssrv.stclass }}"> {{ tunka_ssrv.status }} </td>
-      <td class="{{ kislo_ssrv.stclass }}"> {{ kislo_ssrv.status }} </td>
-      <td class="{{ tavr_ssrv.stclass }}"> {{ tavr_ssrv.status }} </td>
-      <td class="{{ saao_ssrv.stclass }}"> {{ saao_ssrv.status }} </td>
-      <td class="{{ iac_ssrv.stclass }}"> {{ iac_ssrv.status }} </td>
-      <td class="{{ oafa_ssrv.stclass }}"> {{ oafa_ssrv.status }} </td>
-      <td class="{{ mexico_ssrv.stclass }}"> {{ mexico_ssrv.status }} </td>
-    </tr>
-    <tr>
-      <th scope="row">Mount</th>
-      <td class="{{ amur_mount.stclass }}"> {{ amur_mount.status }} </td>
-      <td class="{{ tunka_mount.stclass }}"> {{ tunka_mount.status }} </td>
-      <td class="{{ kislo_mount.stclass }}"> {{ kislo_mount.status }} </td>
-      <td class="{{ tavr_mount.stclass }}"> {{ tavr_mount.status }} </td>
-      <td class="{{ saao_mount.stclass }}"> {{ saao_mount.status }} </td>
-      <td class="{{ iac_mount.stclass }}"> {{ iac_mount.status }} </td>
-      <td class="{{ oafa_mount.stclass }}"> {{ oafa_mount.status }} </td>
-      <td class="{{ mexico_mount.stclass }}"> {{ mexico_mount.status }} </td>
-    </tr>
-    <tr>
-      <th scope="row">FilterW</th>
+      <th scope="row">Filter W/E</th>
       <td class="{{ amur_filterw.stclass }}"> {{ amur_filterw.zi_filter_val }} </td>
-      <td class="{{ tunka_filterw.stclass }}"> {{ tunka_filterw.zi_filter_val }} </td>
-      <td class="{{ kislo_filterw.stclass }}"> {{ kislo_filterw.zi_filter_val }} </td>
-      <td class="{{ tavr_filterw.stclass }}"> {{ tavr_filterw.zi_filter_val }} </td>
-      <td class="{{ saao_filterw.stclass }}"> {{ saao_filterw.zi_filter_val }} </td>
-      <td class="{{ iac_filterw.stclass }}"> {{ iac_filterw.zi_filter_val }} </td>
-      <td class="{{ oafa_filterw.stclass }}"> {{ oafa_filterw.zi_filter_val }} </td>
-      <td class="{{ mexico_filterw.stclass }}"> {{ mexico_filterw.zi_filter_val }} </td>
-    </tr>
-    <tr>
-      <th scope="row">FilterE</th>
       <td class="{{ amur_filtere.stclass }}"> {{ amur_filtere.zi_filter_val }} </td>
+      <td class="{{ tunka_filterw.stclass }}"> {{ tunka_filterw.zi_filter_val }} </td>
       <td class="{{ tunka_filtere.stclass }}"> {{ tunka_filtere.zi_filter_val }} </td>
+      <td class="{{ kislo_filterw.stclass }}"> {{ kislo_filterw.zi_filter_val }} </td>
       <td class="{{ kislo_filtere.stclass }}"> {{ kislo_filtere.zi_filter_val }} </td>
+      <td class="{{ tavr_filterw.stclass }}"> {{ tavr_filterw.zi_filter_val }} </td>
       <td class="{{ tavr_filtere.stclass }}"> {{ tavr_filtere.zi_filter_val }} </td>
+      <td class="{{ saao_filterw.stclass }}"> {{ saao_filterw.zi_filter_val }} </td>
       <td class="{{ saao_filtere.stclass }}"> {{ saao_filtere.zi_filter_val }} </td>
+      <td class="{{ iac_filterw.stclass }}"> {{ iac_filterw.zi_filter_val }} </td>
       <td class="{{ iac_filtere.stclass }}"> {{ iac_filtere.zi_filter_val }} </td>
+      <td class="{{ oafa_filterw.stclass }}"> {{ oafa_filterw.zi_filter_val }} </td>
       <td class="{{ oafa_filtere.stclass }}"> {{ oafa_filtere.zi_filter_val }} </td>
+      <td class="{{ mexico_filterw.stclass }}"> {{ mexico_filterw.zi_filter_val }} </td>
       <td class="{{ mexico_filtere.stclass }}"> {{ mexico_filtere.zi_filter_val }} </td>
     </tr>
     <tr>
-      <th scope="row">FocuserW</th>
+      <th scope="row">Focuser W/E</th>
       <td class="{{ amur_focuserw.stclass }}"> {{ amur_focuserw.status }} </td>
-      <td class="{{ tunka_focuserw.stclass }}"> {{ tunka_focuserw.status }} </td>
-      <td class="{{ kislo_focuserw.stclass }}"> {{ kislo_focuserw.status }} </td>
-      <td class="{{ tavr_focuserw.stclass }}"> {{ tavr_focuserw.status }} </td>
-      <td class="{{ saao_focuserw.stclass }}"> {{ saao_focuserw.status }} </td>
-      <td class="{{ iac_focuserw.stclass }}"> {{ iac_focuserw.status }} </td>
-      <td class="{{ oafa_focuserw.stclass }}"> {{ oafa_focuserw.status }} </td>
-      <td class="{{ mexico_focuserw.stclass }}"> {{ mexico_focuserw.status }} </td>
-    </tr>
-    <tr>
-      <th scope="row">FocuserE</th>
       <td class="{{ amur_focusere.stclass }}"> {{ amur_focusere.status }} </td>
+      <td class="{{ tunka_focuserw.stclass }}"> {{ tunka_focuserw.status }} </td>
       <td class="{{ tunka_focusere.stclass }}"> {{ tunka_focusere.status }} </td>
+      <td class="{{ kislo_focuserw.stclass }}"> {{ kislo_focuserw.status }} </td>
       <td class="{{ kislo_focusere.stclass }}"> {{ kislo_focusere.status }} </td>
+      <td class="{{ tavr_focuserw.stclass }}"> {{ tavr_focuserw.status }} </td>
       <td class="{{ tavr_focusere.stclass }}"> {{ tavr_focusere.status }} </td>
+      <td class="{{ saao_focuserw.stclass }}"> {{ saao_focuserw.status }} </td>
       <td class="{{ saao_focusere.stclass }}"> {{ saao_focusere.status }} </td>
+      <td class="{{ iac_focuserw.stclass }}"> {{ iac_focuserw.status }} </td>
       <td class="{{ iac_focusere.stclass }}"> {{ iac_focusere.status }} </td>
+      <td class="{{ oafa_focuserw.stclass }}"> {{ oafa_focuserw.status }} </td>
       <td class="{{ oafa_focusere.stclass }}"> {{ oafa_focusere.status }} </td>
+      <td class="{{ mexico_focuserw.stclass }}"> {{ mexico_focuserw.status }} </td>
       <td class="{{ mexico_focusere.stclass }}"> {{ mexico_focusere.status }} </td>
     </tr>
     <tr>
+      <th scope="row">WFC1/WFC2</th>
+      <td class="{{ amur_wfcw.last_imtime_stclass }}"> {{ amur_wfcw.wfcid }} </td>
+      <td class="{{ amur_wfce.last_imtime_stclass }}"> {{ amur_wfce.wfcid }} </td>
+      <td class="{{ tunka_wfcw.last_imtime_stclass }}"> {{ tunka_wfcw.wfcid }} </td>
+      <td class="{{ tunka_wfce.last_imtime_stclass }}"> {{ tunka_wfce.wfcid }} </td>
+      <td class="{{ kislo_wfcw.last_imtime_stclass }}"> {{ kislo_wfcw.wfcid }} </td>
+      <td class="{{ kislo_wfce.last_imtime_stclass }}"> {{ kislo_wfce.wfcid }} </td>
+      <td class="{{ tavr_wfcw.last_imtime_stclass }}"> {{ tavr_wfcw.wfcid }} </td>
+      <td class="{{ tavr_wfce.last_imtime_stclass }}"> {{ tavr_wfce.wfcid }} </td>
+      <td class="{{ saao_wfcw.last_imtime_stclass }}"> {{ saao_wfcw.wfcid }} </td>
+      <td class="{{ saao_wfce.last_imtime_stclass }}"> {{ saao_wfce.wfcid }} </td>
+      <td class="{{ iac_wfcw.last_imtime_stclass }}"> {{ iac_wfcw.wfcid }} </td>
+      <td class="{{ iac_wfce.last_imtime_stclass }}"> {{ iac_wfce.wfcid }} </td>
+      <td class="{{ oafa_wfcw.last_imtime_stclass }}"> {{ oafa_wfcw.wfcid }} </td>
+      <td class="{{ oafa_wfce.last_imtime_stclass }}"> {{ oafa_wfce.wfcid }} </td>
+      <td class="{{ mexico_wfcw.last_imtime_stclass }}"> {{ mexico_wfcw.wfcid }} </td>
+      <td class="{{ mexico_wfce.last_imtime_stclass }}"> {{ mexico_wfce.wfcid }} </td>
+    </tr>
+      <tr>
+      <th scope="row">WFCt 1/2</th>
+      <td class="{{ amur_wfcw.last_imtime_stclass }}"> {{ amur_wfcw.last_imtime }} </td>
+      <td class="{{ amur_wfce.last_imtime_stclass }}"> {{ amur_wfce.last_imtime }} </td>
+      <td class="{{ tunka_wfcw.last_imtime_stclass }}"> {{ tunka_wfcw.last_imtime }} </td>
+      <td class="{{ tunka_wfce.last_imtime_stclass }}"> {{ tunka_wfce.last_imtime }} </td>
+      <td class="{{ kislo_wfcw.last_imtime_stclass }}"> {{ kislo_wfcw.last_imtime }} </td>
+      <td class="{{ kislo_wfce.last_imtime_stclass }}"> {{ kislo_wfce.last_imtime }} </td>
+      <td class="{{ tavr_wfcw.last_imtime_stclass }}"> {{ tavr_wfcw.last_imtime }} </td>
+      <td class="{{ tavr_wfce.last_imtime_stclass }}"> {{ tavr_wfce.last_imtime }} </td>
+      <td class="{{ saao_wfcw.last_imtime_stclass }}"> {{ saao_wfcw.last_imtime }} </td>
+      <td class="{{ saao_wfce.last_imtime_stclass }}"> {{ saao_wfce.last_imtime }} </td>
+      <td class="{{ iac_wfcw.last_imtime_stclass }}"> {{ iac_wfcw.last_imtime }} </td>
+      <td class="{{ iac_wfce.last_imtime_stclass }}"> {{ iac_wfce.last_imtime }} </td>
+      <td class="{{ oafa_wfcw.last_imtime_stclass }}"> {{ oafa_wfcw.last_imtime }} </td>
+      <td class="{{ oafa_wfce.last_imtime_stclass }}"> {{ oafa_wfce.last_imtime }} </td>
+      <td class="{{ mexico_wfcw.last_imtime_stclass }}"> {{ mexico_wfcw.last_imtime }} </td>
+      <td class="{{ mexico_wfce.last_imtime_stclass }}"> {{ mexico_wfce.last_imtime }} </td>
+    </tr>
+    <tr>
+      <th scope="row">MainServer/S</th>
+      <td class="{{ amur_msrv.stclass }}" colspan=2> {{ amur_msrv.status }} </td>
+      <td class="{{ tunka_msrv.stclass }}"> {{ tunka_msrv.status }} </td>
+      <td class="{{ tunka_ssrv.stclass }}"> {{ tunka_ssrv.status }} </td>
+      <td class="{{ kislo_msrv.stclass }}"> {{ kislo_msrv.status }} </td>
+      <td class="{{ kislo_ssrv.stclass }}"> {{ kislo_ssrv.status }} </td>
+      <td class="{{ tavr_msrv.stclass }}" colspan=2> {{ tavr_msrv.status }} </td>
+      <td class="{{ saao_msrv.stclass }}" colspan=2> {{ saao_msrv.status }} </td>
+      <td class="{{ iac_msrv.stclass }}" colspan=2> {{ iac_msrv.status }} </td>
+      <td class="{{ oafa_msrv.stclass }}"> {{ oafa_msrv.status }} </td>
+      <td class="{{ oafa_ssrv.stclass }}"> {{ oafa_ssrv.status }} </td>
+      <td class="{{ mexico_msrv.stclass }}" colspan=2> {{ mexico_msrv.status }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Mount</th>
+      <td class="{{ amur_mount.stclass }}" colspan=2> {{ amur_mount.status }} </td>
+      <td class="{{ tunka_mount.stclass }}" colspan=2> {{ tunka_mount.status }} </td>
+      <td class="{{ kislo_mount.stclass }}" colspan=2> {{ kislo_mount.status }} </td>
+      <td class="{{ tavr_mount.stclass }}" colspan=2> {{ tavr_mount.status }} </td>
+      <td class="{{ saao_mount.stclass }}" colspan=2> {{ saao_mount.status }} </td>
+      <td class="{{ iac_mount.stclass }}" colspan=2> {{ iac_mount.status }} </td>
+      <td class="{{ oafa_mount.stclass }}" colspan=2> {{ oafa_mount.status }} </td>
+      <td class="{{ mexico_mount.stclass }}" colspan=2> {{ mexico_mount.status }} </td>
+    </tr>
+    <tr>
       <th scope="row">Actuator</th>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
+      <td class="{{ amur_act.stclass }}" colspan=2> {{ amur_act.zi_act_val }} </td>
+      <td class="{{ tunka_act.stclass }}" colspan=2> {{ tunka_act.zi_act_val }} </td>
+      <td class="{{ kislo_act.stclass }}" colspan=2> {{ kislo_act.zi_act_val }} </td>
+      <td class="{{ tavr_act.stclass }}" colspan=2> {{ tavr_act.zi_act_val }} </td>
+      <td class="{{ saao_act.stclass }}" colspan=2> {{ saao_act.zi_act_val }} </td>
+      <td class="{{ iac_act.stclass }}" colspan=2> {{ iac_act.zi_act_val }} </td>
+      <td class="{{ oafa_act.stclass }}" colspan=2> {{ oafa_act.zi_act_val }} </td>
+      <td class="{{ mexico_act.stclass }}" colspan=2> {{ mexico_act.zi_act_val }} </td>
     </tr>
     <tr>
-      <th scope="row">Meteo Station</th>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
+      <th scope="row">MeteoStation</th>
+      <td class="table-info" colspan=2>-</td>
+      <td class="table-info" colspan=2>-</td>
+      <td class="table-info" colspan=2>-</td>
+      <td class="table-info" colspan=2>-</td>
+      <td class="table-info" colspan=2>-</td>
+      <td class="table-info" colspan=2>-</td>
+      <td class="table-info" colspan=2>-</td>
+      <td class="table-info" colspan=2>-</td>
     </tr>
     <tr>
-      <th scope="row">Ebox1</th>
+      <th scope="row">Ebox1/Ebox2</th>
       <td class="{{ amur_ebox.stclass }}"> {{ amur_ebox.status }} </td>
+      <td class="table-info">-</td>
       <td class="{{ tunka_ebox.stclass }}"> {{ tunka_ebox.status }} </td>
+      <td class="table-info">-</td>
       <td class="{{ kislo_ebox.stclass }}"> {{ kislo_ebox.status }} </td>
+      <td class="table-info">-</td>
       <td class="{{ tavr_ebox.stclass }}"> {{ tavr_ebox.status }} </td>
+      <td class="table-info">-</td>
       <td class="{{ saao_ebox.stclass }}"> {{ saao_ebox.status }} </td>
+      <td class="table-info">-</td>
       <td class="{{ iac_ebox.stclass }}"> {{ iac_ebox.status }} </td>
+      <td class="table-info">-</td>
       <td class="{{ oafa_ebox.stclass }}"> {{ oafa_ebox.status }} </td>
+      <td class="table-info">-</td>
       <td class="{{ mexico_ebox.stclass }}"> {{ mexico_ebox.status }} </td>
-    </tr>
-    <tr>
-      <th scope="row">Ebox2</th>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
       <td class="table-info">-</td>
     </tr>
     <tr>
-      <th scope="row">IPCamExt</th>
+      <th scope="row">IPCam_Ext/Int</th>
       <td class="table-info">-</td>
       <td class="table-info">-</td>
       <td class="table-info">-</td>
@@ -361,20 +330,6 @@
       <td class="table-info">-</td>
       <td class="table-info">-</td>
       <td class="table-info">-</td>
-    </tr>
-    <tr>
-      <th scope="row">IPCamIn</th>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-      <td class="table-info">-</td>
-    </tr>
-    <tr>
-      <th scope="row">USB-webcam</th>
       <td class="table-danger"><b>NO</b></td>
       <td class="table-info">-</td>
       <td class="table-active">-</td>

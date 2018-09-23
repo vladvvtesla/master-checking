@@ -215,3 +215,27 @@ class Ebox(models.Model):
         return self.hostname
 
 
+# Actuator
+class Actuator(models.Model):
+    sitename = models.CharField(max_length=14)
+    exists = models.BooleanField(default=True)
+    maintenance = models.BooleanField(default=False)
+    zbsrv = models.CharField(max_length=22, default='MASTER-Zabbix-Server-3')
+    hostid = models.IntegerField(default=99999)
+    hostname = models.CharField(max_length=12, default='amur-dome')
+    zi_act_val = models.CharField(max_length=9)
+    zi_act_ts = models.IntegerField(default=1519398497)
+    status = models.CharField(max_length=7, default='OK')
+    stclass = models.CharField(max_length=13, default='table-info')
+
+    def __str__(self):
+        return self.hostname
+
+
+
+
+
+
+
+
+

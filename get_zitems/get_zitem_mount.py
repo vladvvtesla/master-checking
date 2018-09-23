@@ -74,12 +74,18 @@ def get_zitem(zbsrv, hostid, item):
 
         items = zapi.item.get(hostids=hostid, output=['itemid', 'name', 'lastvalue', 'lastclock'])
         # print(items)
-        for item in items:
-            # print(item)
-            if item_regular in item['name']:
-                # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
-                item_lastvalue = int(item['lastvalue'])
-                item_lastts = int(item['lastclock'])
+        if items:
+            for item in items:
+                # print(item)
+                if item_regular in item['name']:
+                    # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
+                    item_lastvalue = int(item['lastvalue'])
+                    item_lastts = int(item['lastclock'])
+        else:
+             # If connetction to ZabbixServer exists, but items list is empty
+            print('items list for', hostid, 'is empty')
+            item_lastvalue = 504
+            item_lastts = int(time.time())
     # If There is no connection to ZabbixServer
     except Exception as e:
         # print('error text', e)
@@ -120,6 +126,7 @@ def get_host_status(lastvalue, lastclock):
     # print(diff_time)
 
     val_to_stat = {503 : 'NoConn',
+                   504: 'expired',
                    0 : 'None',
                    1 : 'PARKED',
                    2 : 'READY',

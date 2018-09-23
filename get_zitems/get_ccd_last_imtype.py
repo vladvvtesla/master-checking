@@ -30,6 +30,7 @@ import configparser
 from lxml import html
 from lxml import etree
 import requests
+from datetime import datetime, date, time
 
 # To ignore InsecureRequestWarning in stderr
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -39,7 +40,7 @@ from mtable.models import MasterSite, Ccd
 
 
 script_name = 'get_ccd_last_impytpe.py'
-script_version = 'v.1.0_20180317'
+script_version = 'v.1.1_20180920'
 #htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
 htusers_cfg_path = '/home/vladvv/PycharmProjects/master-checking/etc/htusers.cfg'
 
@@ -58,7 +59,7 @@ def m2db(url, user, password):
     """
 
     try:
-        r = requests.get(url, auth=(user, password), verify=False, timeout=10)
+        r = requests.get(url, auth=(user, password), verify=False, timeout=40)
         r.raise_for_status()
 
     except requests.exceptions.ConnectTimeout:
@@ -200,6 +201,28 @@ def get_limattr(url, user, password, sitename, tube, attr):
     return imattr
 
 
+def convert_time(dtime):
+    """
+    Convert Last Image Time to other format
+    :param limtime - Time in format: 2018-09-20 02:34:06
+    :return: convtime - Time in format: 18-09-20 02:34:06
+    """
+
+    if dtime == '-':
+        convtime = '-'
+    else:
+        try:
+            dt = datetime.strptime(dtime, "%Y-%m-%d %H:%M:%S.%f")
+            convtime = dt.strftime("%y-%m-%d %H:%M:%S")
+        except ValueError:
+            dt = datetime.strptime(dtime, "%Y-%m-%d %H:%M:%S")
+            convtime = dt.strftime("%y-%m-%d %H:%M:%S")
+        except TypeError:
+            print(dtime)
+
+    return convtime
+
+
 def get_limtime_stclass(limtime):
     stclass = 'table-success'
     return stclass
@@ -230,13 +253,16 @@ if __name__ == '__main__':
         for ccd in (west_ccd, east_ccd):
             if ccd.exists:
                 # print(ccd.hostname)
-                limtime = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_date_time')
-                if limtime != '-':
+                limtime_raw = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_date_time')
+                if limtime_raw != '-':
                     limobj = get_limattr(url, user, password, ccd.sitename, "".join(ccd.tube.upper()), 'im_object')
                 else:
                     limobj = '-'
 
+                # Convert Last Image Time to other format
+                limtime = convert_time(limtime_raw)
                 # print(limtime)
+
                 # print(limobj)
                 limtime_stclass = get_limtime_stclass(limtime)
                 limobj_stclass = get_limobj_stclass(limobj)

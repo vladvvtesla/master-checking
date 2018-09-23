@@ -64,9 +64,9 @@ def get_zitem(zbsrv, hostid, item):
     zbsrv_username = config[srv]['zbsrv_username']
     zbsrv_pass = config[srv]['zbsrv_pass']
 
-    # print(ZABBIX_SERVER)
-    # print(zbsrv_username)
-    # print(zbsrv_pass)
+#    print(ZABBIX_SERVER)
+#    print(zbsrv_username)
+#    print(zbsrv_pass)
 
     zapi = ZabbixAPI(ZABBIX_SERVER, timeout=5)
     zapi.session.verify=False
@@ -74,13 +74,19 @@ def get_zitem(zbsrv, hostid, item):
         zapi.login(zbsrv_username, zbsrv_pass)
 
         items = zapi.item.get(hostids=hostid, output=['itemid', 'name', 'lastvalue', 'lastclock'])
-        #print(items)
-        for item in items:
-            # print(item)
-            if 'ICMP ping' in item['name']:
-                # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
-                item_lastvalue = int(item['lastvalue'])
-                item_lastts = int(item['lastclock'])
+        # print(items)
+        if items:
+            for item in items:
+                # print(item)
+                if 'ICMP ping' in item['name']:
+                    # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
+                    item_lastvalue = int(item['lastvalue'])
+                    item_lastts = int(item['lastclock'])
+        else:
+            # If connetction to ZabbixServer exists, but items list is empty
+            print ('items list for', hostid, 'is empty')
+            item_lastvalue = 504
+            item_lastts = int(time.time())
     # If There is no connection to ZabbixServer
     except Exception as e:
         # print('error text', e)
