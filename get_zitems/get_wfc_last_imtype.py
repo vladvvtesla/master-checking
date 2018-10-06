@@ -59,7 +59,7 @@ def wfcpage_tree(url, user, password):
     """
 
     try:
-        r = requests.get(url, auth=(user, password), verify=False, timeout=120)
+        r = requests.get(url, auth=(user, password), verify=False, timeout=60)
         r.raise_for_status()
 
     except requests.exceptions.ConnectTimeout:
@@ -214,10 +214,10 @@ def convert_time(dtime):
     else:
         try:
             dt = datetime.strptime(dtime, "%Y-%m-%d %H:%M:%S.%f")
-            convtime = dt.strftime("%y-%m-%d %H:%M:%S")
+            convtime = dt.strftime("%y%m%d %H:%M:%S")
         except ValueError:
             dt = datetime.strptime(dtime, "%Y-%m-%d %H:%M:%S")
-            convtime = dt.strftime("%y-%m-%d %H:%M:%S")
+            convtime = dt.strftime("%y%m%d %H:%M:%S")
         except TypeError:
             print(dtime)
 
@@ -264,7 +264,7 @@ if __name__ == '__main__':
 
                 # Convert Last Image Time to other format
                 limtime = convert_time(limtime_raw)
-                print(limtime)
+                # print(limtime)
 
                 #print(limtime)
                 #print(limobj)

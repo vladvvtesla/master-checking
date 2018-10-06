@@ -39,7 +39,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 from mtable.models import MasterSite, Ccd
 
 
-script_name = 'get_ccd_last_impytpe.py'
+script_name = 'get_ccd_last_imtype.py'
 script_version = 'v.1.1_20180920'
 #htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
 htusers_cfg_path = '/home/vladvv/PycharmProjects/master-checking/etc/htusers.cfg'
@@ -122,6 +122,7 @@ def get_table_dict(tree):
         row_dict = dict(zip(heads, imattrs))
         # Create a table_dict, where key is a im_id, and value is row_dict
         table_dict[row_dict['im_id']] = row_dict
+        # print('i am here')
 
     return table_dict
 
@@ -213,10 +214,10 @@ def convert_time(dtime):
     else:
         try:
             dt = datetime.strptime(dtime, "%Y-%m-%d %H:%M:%S.%f")
-            convtime = dt.strftime("%y-%m-%d %H:%M:%S")
+            convtime = dt.strftime("%y%m%d %H:%M:%S")
         except ValueError:
             dt = datetime.strptime(dtime, "%Y-%m-%d %H:%M:%S")
-            convtime = dt.strftime("%y-%m-%d %H:%M:%S")
+            convtime = dt.strftime("%y%m%d %H:%M:%S")
         except TypeError:
             print(dtime)
 

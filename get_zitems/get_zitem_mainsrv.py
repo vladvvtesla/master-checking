@@ -83,7 +83,7 @@ def get_zitem(zbsrv, hostid, item):
                     item_lastvalue = int(item['lastvalue'])
                     item_lastts = int(item['lastclock'])
         else:
-            # If connetction to ZabbixServer exists, but items list is empty
+            # If connection to ZabbixServer exists, but items list is empty
             print ('items list for', hostid, 'is empty')
             item_lastvalue = 504
             item_lastts = int(time.time())
@@ -170,16 +170,23 @@ if __name__ == '__main__':
         # print(srv.zbsrv)
         # print(srv.hostid)
 
-        item_lastvalue, item_lastts = get_zitem(srv.zbsrv, srv.hostid, item)
-        # print(item_lastts)
-        # print(item_lastvalue)
+        # If host on maintenance don't execute get_zitem
+        if srv.maintenance:
+            item_lastvalue, = "0"
+            item_lastts = 1519398497
+            host_status = "-"
+            host_stclass = "table-info"
+        else:
+            item_lastvalue, item_lastts = get_zitem(srv.zbsrv, srv.hostid, item)
+            # print(item_lastts)
+            # print(item_lastvalue)
 
-        host_status = get_host_status(item_lastvalue, item_lastts)
-        # print(host_status)
+            host_status = get_host_status(item_lastvalue, item_lastts)
+            # print(host_status)
 
-        host_stclass = get_host_stclass(host_status)
-        # print(host_stclass)
-        # print()
+            host_stclass = get_host_stclass(host_status)
+            # print(host_stclass)
+            # print()
 
         # srv = MainServer.objects.get(hostid=host_id)
         srv.zi_pingval = item_lastvalue

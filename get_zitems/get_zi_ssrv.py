@@ -72,12 +72,18 @@ def get_zitem(zbsrv, hostid, item_regular):
 
         items = zapi.item.get(hostids=hostid, output=['itemid', 'name', 'lastvalue', 'lastclock'])
         # print(items)
-        for item in items:
-            # print(item)
-            if item_regular in item['name']:
-                # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
-                item_lastvalue = int(item['lastvalue'])
-                item_lastts = int(item['lastclock'])
+        if items:
+            for item in items:
+                # print(item)
+                if item_regular in item['name']:
+                    # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
+                    item_lastvalue = int(item['lastvalue'])
+                    item_lastts = int(item['lastclock'])
+        else:
+            # If connection to ZabbixServer exists, but items list is empty
+            print('items list for', hostid, 'is empty')
+            item_lastvalue = 504
+            item_lastts = int(time.time())
 
     # If There is no connection to ZabbixServer
     except Exception as e:
@@ -118,7 +124,8 @@ def get_host_status(lastvalue, lastclock):
     diff_time = get_diff_time(lastclock)
     # print(diff_time)
 
-    val_to_stat = {503 : "NoConn",
+    val_to_stat = {503 : "NoConnz",
+                   504: "Empty",
                    0 : "NoPing",
                    1 : "OK"}
 
@@ -141,8 +148,9 @@ def get_host_stclass(status='expired'):
 
     st_to_stclass = {'OK' : 'table-success',
                      'expired' : 'table-warning',
-                     'NoConn': 'table-warning',
-                     'NoPing' : 'table-danger',
+                     'NoConnz': 'table-warning',
+                     'Empty': 'table-warning',
+                     'NoPing': 'table-danger',
                      'maintenance': 'table-info'}
 
     if status in st_to_stclass:
@@ -161,8 +169,19 @@ if __name__ == '__main__':
         # print(host.zbsrv)
         # print(host.hostid)
 
-        # If device doesn't exist, don't check it
-        if host.exists:
+        # If host on maintenance don't execute get_zitem
+        if host.maintenance:
+            item_lastvalue, = "0"
+            item_lastts = 1519398497
+            host_status = "-"
+            host_stclass = "table-info"
+        # If host not exists don't execute get_zitem
+        elif not host.exists:
+            item_lastvalue, = "0"
+            item_lastts = 1519398497
+            host_status = "-"
+            host_stclass = "table-info"
+        else:
             item_lastvalue, item_lastts = get_zitem(host.zbsrv, host.hostid, item_regular)
             # print(item_lastts)
             # print(item_lastvalue)
@@ -173,10 +192,6 @@ if __name__ == '__main__':
             host_stclass = get_host_stclass(host_status)
             # print(host_stclass)
             # print()
-        else:
-            host_status = '-'
-            host_stclass = 'table-info'
-
 
 
         # srv = MainServer.objects.get(hostid=host_id)

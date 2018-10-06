@@ -40,7 +40,7 @@
           <a class="dropdown-item" href="#">Tavrida</a>
           <a class="dropdown-item" href="#">SAAO</a>
           <a class="dropdown-item" href="#">IAC</a>
-          <a class="dropdown-item" href="#">INAOE</a>
+          <a class="dropdown-item" href="#">OAFA</a>
           <a class="dropdown-item" href="#">Mexico</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Ural</a>
@@ -57,7 +57,7 @@
           <a class="dropdown-item" href="#">Tavrida</a>
           <a class="dropdown-item" href="#">SAAO</a>
           <a class="dropdown-item" href="#">IAC</a>
-          <a class="dropdown-item" href="#">INAOE</a>
+          <a class="dropdown-item" href="#">OAFA</a>
           <a class="dropdown-item" href="#">Mexico</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Ural</a>
@@ -111,26 +111,26 @@
   </thead>
   <tbody>
   <tr>
-      <th scope="row">Sun/Dome</th>
+      <th scope="row">Sun / Dome</th>
       <td class="{{ amur_site.sun_alt_stclass }}"> {{ amur_site.sun_alt }}</td>
-      <td class="{{ amur_dome.stclass }}"> {{ amur_dome.zi_dome_val }} </td>
+      <td class="{{ amur_dome.stclass }}"> {{ amur_dome.status }} </td>
       <td class="{{ tunka_site.sun_alt_stclass }}"> {{ tunka_site.sun_alt }} </td>
-      <td class="{{ tunka_dome.stclass }}"> {{ tunka_dome.zi_dome_val }} </td>
+      <td class="{{ tunka_dome.stclass }}"> {{ tunka_dome.status }} </td>
       <td class="{{ kislo_site.sun_alt_stclass }}"> {{ kislo_site.sun_alt }} </td>
-      <td class="{{ kislo_dome.stclass }}"> {{ kislo_dome.zi_dome_val }} </td>
+      <td class="{{ kislo_dome.stclass }}"> {{ kislo_dome.status }} </td>
       <td class="{{ tavr_site.sun_alt_stclass }}"> {{ tavr_site.sun_alt }} </td>
-      <td class="{{ tavr_dome.stclass }}"> {{ tavr_dome.zi_dome_val }} </td>
+      <td class="{{ tavr_dome.stclass }}"> {{ tavr_dome.status }} </td>
       <td class="{{ saao_site.sun_alt_stclass }}"> {{ saao_site.sun_alt }} </td>
-      <td class="{{ saao_dome.stclass }}"> {{ saao_dome.zi_dome_val }} </td>
+      <td class="{{ saao_dome.stclass }}"> {{ saao_dome.status }} </td>
       <td class="{{ iac_site.sun_alt_stclass }}"> {{ iac_site.sun_alt }} </td>
-      <td class="{{ iac_dome.stclass }}"> {{ iac_dome.zi_dome_val }} </td>
+      <td class="{{ iac_dome.stclass }}"> {{ iac_dome.status }} </td>
       <td class="{{ oafa_site.sun_alt_stclass }}"> {{ oafa_site.sun_alt }} </td>
-      <td class="{{ oafa_dome.stclass }}"> {{ oafa_dome.zi_dome_val }} </td>
+      <td class="{{ oafa_dome.stclass }}"> {{ oafa_dome.status }} </td>
       <td class="{{ mexico_site.sun_alt_stclass }}"> {{ mexico_site.sun_alt }} </td>
-      <td class="{{ mexico_dome.stclass }}"> {{ mexico_dome.zi_dome_val }} </td>
+      <td class="{{ mexico_dome.stclass }}"> {{ mexico_dome.status }} </td>
     </tr>
     <tr>
-      <th scope="row">Head</th>
+      <th scope="row">Task</th>
       <td class="{{ amur_head.stclass }}" colspan=2> {{ amur_head.status }} </td>
       <td class="{{ tunka_head.stclass }}" colspan=2> {{ tunka_head.status }} </td>
       <td class="{{ kislo_head.stclass }}" colspan=2> {{ kislo_head.status }} </td>
@@ -180,41 +180,22 @@
     </tr>
     <tr>
       <th scope="row">Filter W/E</th>
-      <td class="{{ amur_filterw.stclass }}"> {{ amur_filterw.zi_filter_val }} </td>
-      <td class="{{ amur_filtere.stclass }}"> {{ amur_filtere.zi_filter_val }} </td>
-      <td class="{{ tunka_filterw.stclass }}"> {{ tunka_filterw.zi_filter_val }} </td>
-      <td class="{{ tunka_filtere.stclass }}"> {{ tunka_filtere.zi_filter_val }} </td>
-      <td class="{{ kislo_filterw.stclass }}"> {{ kislo_filterw.zi_filter_val }} </td>
-      <td class="{{ kislo_filtere.stclass }}"> {{ kislo_filtere.zi_filter_val }} </td>
-      <td class="{{ tavr_filterw.stclass }}"> {{ tavr_filterw.zi_filter_val }} </td>
-      <td class="{{ tavr_filtere.stclass }}"> {{ tavr_filtere.zi_filter_val }} </td>
-      <td class="{{ saao_filterw.stclass }}"> {{ saao_filterw.zi_filter_val }} </td>
-      <td class="{{ saao_filtere.stclass }}"> {{ saao_filtere.zi_filter_val }} </td>
-      <td class="{{ iac_filterw.stclass }}"> {{ iac_filterw.zi_filter_val }} </td>
-      <td class="{{ iac_filtere.stclass }}"> {{ iac_filtere.zi_filter_val }} </td>
-      <td class="{{ oafa_filterw.stclass }}"> {{ oafa_filterw.zi_filter_val }} </td>
-      <td class="{{ oafa_filtere.stclass }}"> {{ oafa_filtere.zi_filter_val }} </td>
-      <td class="{{ mexico_filterw.stclass }}"> {{ mexico_filterw.zi_filter_val }} </td>
-      <td class="{{ mexico_filtere.stclass }}"> {{ mexico_filtere.zi_filter_val }} </td>
-    </tr>
-    <tr>
-      <th scope="row">Focuser W/E</th>
-      <td class="{{ amur_focuserw.stclass }}"> {{ amur_focuserw.status }} </td>
-      <td class="{{ amur_focusere.stclass }}"> {{ amur_focusere.status }} </td>
-      <td class="{{ tunka_focuserw.stclass }}"> {{ tunka_focuserw.status }} </td>
-      <td class="{{ tunka_focusere.stclass }}"> {{ tunka_focusere.status }} </td>
-      <td class="{{ kislo_focuserw.stclass }}"> {{ kislo_focuserw.status }} </td>
-      <td class="{{ kislo_focusere.stclass }}"> {{ kislo_focusere.status }} </td>
-      <td class="{{ tavr_focuserw.stclass }}"> {{ tavr_focuserw.status }} </td>
-      <td class="{{ tavr_focusere.stclass }}"> {{ tavr_focusere.status }} </td>
-      <td class="{{ saao_focuserw.stclass }}"> {{ saao_focuserw.status }} </td>
-      <td class="{{ saao_focusere.stclass }}"> {{ saao_focusere.status }} </td>
-      <td class="{{ iac_focuserw.stclass }}"> {{ iac_focuserw.status }} </td>
-      <td class="{{ iac_focusere.stclass }}"> {{ iac_focusere.status }} </td>
-      <td class="{{ oafa_focuserw.stclass }}"> {{ oafa_focuserw.status }} </td>
-      <td class="{{ oafa_focusere.stclass }}"> {{ oafa_focusere.status }} </td>
-      <td class="{{ mexico_focuserw.stclass }}"> {{ mexico_focuserw.status }} </td>
-      <td class="{{ mexico_focusere.stclass }}"> {{ mexico_focusere.status }} </td>
+      <td class="{{ amur_filterw.stclass }}"> {{ amur_filterw.display_name }} </td>
+      <td class="{{ amur_filtere.stclass }}"> {{ amur_filtere.display_name }} </td>
+      <td class="{{ tunka_filterw.stclass }}"> {{ tunka_filterw.display_name }} </td>
+      <td class="{{ tunka_filtere.stclass }}"> {{ tunka_filtere.display_name }} </td>
+      <td class="{{ kislo_filterw.stclass }}"> {{ kislo_filterw.display_name }} </td>
+      <td class="{{ kislo_filtere.stclass }}"> {{ kislo_filtere.display_name }} </td>
+      <td class="{{ tavr_filterw.stclass }}"> {{ tavr_filterw.display_name }} </td>
+      <td class="{{ tavr_filtere.stclass }}"> {{ tavr_filtere.display_name }} </td>
+      <td class="{{ saao_filterw.stclass }}"> {{ saao_filterw.display_name }} </td>
+      <td class="{{ saao_filtere.stclass }}"> {{ saao_filtere.display_name }} </td>
+      <td class="{{ iac_filterw.stclass }}"> {{ iac_filterw.display_name }} </td>
+      <td class="{{ iac_filtere.stclass }}"> {{ iac_filtere.display_name }} </td>
+      <td class="{{ oafa_filterw.stclass }}"> {{ oafa_filterw.display_name }} </td>
+      <td class="{{ oafa_filtere.stclass }}"> {{ oafa_filtere.display_name }} </td>
+      <td class="{{ mexico_filterw.stclass }}"> {{ mexico_filterw.display_name }} </td>
+      <td class="{{ mexico_filtere.stclass }}"> {{ mexico_filtere.display_name }} </td>
     </tr>
     <tr>
       <th scope="row">WFC1/WFC2</th>
@@ -278,6 +259,25 @@
       <td class="{{ iac_mount.stclass }}" colspan=2> {{ iac_mount.status }} </td>
       <td class="{{ oafa_mount.stclass }}" colspan=2> {{ oafa_mount.status }} </td>
       <td class="{{ mexico_mount.stclass }}" colspan=2> {{ mexico_mount.status }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Focuser W/E</th>
+      <td class="{{ amur_focuserw.stclass }}"> {{ amur_focuserw.status }} </td>
+      <td class="{{ amur_focusere.stclass }}"> {{ amur_focusere.status }} </td>
+      <td class="{{ tunka_focuserw.stclass }}"> {{ tunka_focuserw.status }} </td>
+      <td class="{{ tunka_focusere.stclass }}"> {{ tunka_focusere.status }} </td>
+      <td class="{{ kislo_focuserw.stclass }}"> {{ kislo_focuserw.status }} </td>
+      <td class="{{ kislo_focusere.stclass }}"> {{ kislo_focusere.status }} </td>
+      <td class="{{ tavr_focuserw.stclass }}"> {{ tavr_focuserw.status }} </td>
+      <td class="{{ tavr_focusere.stclass }}"> {{ tavr_focusere.status }} </td>
+      <td class="{{ saao_focuserw.stclass }}"> {{ saao_focuserw.status }} </td>
+      <td class="{{ saao_focusere.stclass }}"> {{ saao_focusere.status }} </td>
+      <td class="{{ iac_focuserw.stclass }}"> {{ iac_focuserw.status }} </td>
+      <td class="{{ iac_focusere.stclass }}"> {{ iac_focusere.status }} </td>
+      <td class="{{ oafa_focuserw.stclass }}"> {{ oafa_focuserw.status }} </td>
+      <td class="{{ oafa_focusere.stclass }}"> {{ oafa_focusere.status }} </td>
+      <td class="{{ mexico_focuserw.stclass }}"> {{ mexico_focuserw.status }} </td>
+      <td class="{{ mexico_focusere.stclass }}"> {{ mexico_focusere.status }} </td>
     </tr>
     <tr>
       <th scope="row">Actuator</th>

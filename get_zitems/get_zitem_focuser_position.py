@@ -155,11 +155,23 @@ if __name__ == '__main__':
 
     hosts = Focuser.objects.all()
     for host in hosts:
-        if host.exists:
-            # print(host.hostname)
-            # print(host.zbsrv)
-            # print(host.hostid)
+        # print(host.hostname)
+        # print(host.zbsrv)
+        # print(host.hostid)
 
+        # If host on maintenance don't execute get_zitem
+        if host.maintenance:
+            item_lastvalue, = "0"
+            item_lastts = 1519398497
+            host_status = "-"
+            host_stclass = "table-info"
+        # If host not exists don't execute get_zitem
+        elif not host.exists:
+            item_lastvalue, = "0"
+            item_lastts = 1519398497
+            host_status = "-"
+            host_stclass = "table-info"
+        else:
             item_lastvalue, item_lastts = get_zitem(host.zbsrv, host.hostid, item_regular)
             # print(item_lastts)
             # print(item_lastvalue)
@@ -174,9 +186,6 @@ if __name__ == '__main__':
             host.zi_fpval = item_lastvalue
             host.zi_fpts = item_lastts
 
-        else:
-            host_status = '-'
-            host_stclass = 'table-info'
 
         # fp means focuser position
         host.status = host_status

@@ -24,7 +24,7 @@ def main_table(request):
     tavr_site = MasterSite.objects.filter(sitename = 'MASTER-Tavrida')
     saao_site = MasterSite.objects.filter(sitename = 'MASTER-SAAO')
     iac_site = MasterSite.objects.filter(sitename = 'MASTER-IAC')
-    oafa_site = MasterSite.objects.filter(sitename = 'MASTER-INAOE')
+    oafa_site = MasterSite.objects.filter(sitename = 'MASTER-OAFA')
     mexico_site = MasterSite.objects.filter(sitename='MASTER-Mexico')
 
     amur_msrv = MainServer.objects.filter(sitename = 'MASTER-Amur')
@@ -33,7 +33,7 @@ def main_table(request):
     tavr_msrv = MainServer.objects.filter(sitename = 'MASTER-Tavrida')
     saao_msrv = MainServer.objects.filter(sitename = 'MASTER-SAAO')
     iac_msrv = MainServer.objects.filter(sitename = 'MASTER-IAC')
-    oafa_msrv = MainServer.objects.filter(sitename = 'MASTER-INAOE')
+    oafa_msrv = MainServer.objects.filter(sitename = 'MASTER-OAFA')
     mexico_msrv = MainServer.objects.filter(sitename='MASTER-Mexico')
 
     amur_head = Head.objects.filter(sitename = 'MASTER-Amur')
@@ -42,7 +42,7 @@ def main_table(request):
     tavr_head = Head.objects.filter(sitename = 'MASTER-Tavrida')
     saao_head = Head.objects.filter(sitename = 'MASTER-SAAO')
     iac_head = Head.objects.filter(sitename = 'MASTER-IAC')
-    oafa_head = Head.objects.filter(sitename = 'MASTER-INAOE')
+    oafa_head = Head.objects.filter(sitename = 'MASTER-OAFA')
     mexico_head = Head.objects.filter(sitename='MASTER-Mexico')
 
     amur_mount = Mount.objects.filter(sitename = 'MASTER-Amur')
@@ -51,7 +51,7 @@ def main_table(request):
     tavr_mount = Mount.objects.filter(sitename = 'MASTER-Tavrida')
     saao_mount = Mount.objects.filter(sitename = 'MASTER-SAAO')
     iac_mount = Mount.objects.filter(sitename = 'MASTER-IAC')
-    oafa_mount = Mount.objects.filter(sitename = 'MASTER-INAOE')
+    oafa_mount = Mount.objects.filter(sitename = 'MASTER-OAFA')
     mexico_mount = Mount.objects.filter(sitename='MASTER-Mexico')
 
     amur_dome = Dome.objects.filter(sitename = 'MASTER-Amur')
@@ -60,7 +60,7 @@ def main_table(request):
     tavr_dome = Dome.objects.filter(sitename = 'MASTER-Tavrida')
     saao_dome = Dome.objects.filter(sitename = 'MASTER-SAAO')
     iac_dome = Dome.objects.filter(sitename = 'MASTER-IAC')
-    oafa_dome = Dome.objects.filter(sitename = 'MASTER-INAOE')
+    oafa_dome = Dome.objects.filter(sitename = 'MASTER-OAFA')
     mexico_dome = Dome.objects.filter(sitename='MASTER-Mexico')
 
     amur_ccdw = Ccd.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'west')
@@ -69,7 +69,7 @@ def main_table(request):
     tavr_ccdw = Ccd.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'west')
     saao_ccdw = Ccd.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'west')
     iac_ccdw = Ccd.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'west')
-    oafa_ccdw = Ccd.objects.filter(sitename = 'MASTER-INAOE').filter(tube = 'west')
+    oafa_ccdw = Ccd.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'west')
     mexico_ccdw = Ccd.objects.filter(sitename='MASTER-Mexico').filter(tube='west')
 
     amur_ccde = Ccd.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'east')
@@ -78,7 +78,7 @@ def main_table(request):
     tavr_ccde = Ccd.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'east')
     saao_ccde = Ccd.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'east')
     iac_ccde = Ccd.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'east')
-    oafa_ccde = Ccd.objects.filter(sitename = 'MASTER-INAOE').filter(tube = 'east')
+    oafa_ccde = Ccd.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'east')
     mexico_ccde = Ccd.objects.filter(sitename='MASTER-Mexico').filter(tube='east')
 
     amur_wfcw = WFC.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'west')
@@ -87,7 +87,7 @@ def main_table(request):
     tavr_wfcw = WFC.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'west')
     saao_wfcw = WFC.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'west')
     iac_wfcw = WFC.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'west')
-    oafa_wfcw = WFC.objects.filter(sitename = 'MASTER-INAOE').filter(tube = 'west')
+    oafa_wfcw = WFC.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'west')
     mexico_wfcw = WFC.objects.filter(sitename='MASTER-Mexico').filter(tube='west')
 
     amur_wfce = WFC.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'east')
@@ -96,7 +96,7 @@ def main_table(request):
     tavr_wfce = WFC.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'east')
     saao_wfce = WFC.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'east')
     iac_wfce = WFC.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'east')
-    oafa_wfce = WFC.objects.filter(sitename = 'MASTER-INAOE').filter(tube = 'east')
+    oafa_wfce = WFC.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'east')
     mexico_wfce = WFC.objects.filter(sitename='MASTER-Mexico').filter(tube='east')
 
     amur_filterw = Filter.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'west')
@@ -105,7 +105,7 @@ def main_table(request):
     tavr_filterw = Filter.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'west')
     saao_filterw = Filter.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'west')
     iac_filterw = Filter.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'west')
-    oafa_filterw = Filter.objects.filter(sitename = 'MASTER-INAOE').filter(tube = 'west')
+    oafa_filterw = Filter.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'west')
     mexico_filterw = Filter.objects.filter(sitename='MASTER-Mexico').filter(tube='west')
 
     amur_filtere = Filter.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'east')
@@ -114,7 +114,7 @@ def main_table(request):
     tavr_filtere = Filter.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'east')
     saao_filtere = Filter.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'east')
     iac_filtere = Filter.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'east')
-    oafa_filtere = Filter.objects.filter(sitename = 'MASTER-INAOE').filter(tube = 'east')
+    oafa_filtere = Filter.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'east')
     mexico_filtere = Filter.objects.filter(sitename='MASTER-Mexico').filter(tube='east')
 
     amur_focuserw = Focuser.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'west')
@@ -123,7 +123,7 @@ def main_table(request):
     tavr_focuserw = Focuser.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'west')
     saao_focuserw = Focuser.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'west')
     iac_focuserw = Focuser.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'west')
-    oafa_focuserw = Focuser.objects.filter(sitename = 'MASTER-INAOE').filter(tube = 'west')
+    oafa_focuserw = Focuser.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'west')
     mexico_focuserw = Focuser.objects.filter(sitename='MASTER-Mexico').filter(tube='west')
 
     amur_focusere = Focuser.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'east')
@@ -132,7 +132,7 @@ def main_table(request):
     tavr_focusere = Focuser.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'east')
     saao_focusere = Focuser.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'east')
     iac_focusere = Focuser.objects.filter(sitename = 'MASTER-IAC').filter(tube = 'east')
-    oafa_focusere = Focuser.objects.filter(sitename = 'MASTER-INAOE').filter(tube = 'east')
+    oafa_focusere = Focuser.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'east')
     mexico_focusere = Focuser.objects.filter(sitename='MASTER-Mexico').filter(tube='east')
 
     amur_ssrv = SecondServer.objects.filter(sitename = 'MASTER-Amur')
@@ -141,7 +141,7 @@ def main_table(request):
     tavr_ssrv = SecondServer.objects.filter(sitename = 'MASTER-Tavrida')
     saao_ssrv = SecondServer.objects.filter(sitename = 'MASTER-SAAO')
     iac_ssrv = SecondServer.objects.filter(sitename = 'MASTER-IAC')
-    oafa_ssrv = SecondServer.objects.filter(sitename = 'MASTER-INAOE')
+    oafa_ssrv = SecondServer.objects.filter(sitename = 'MASTER-OAFA')
     mexico_ssrv = SecondServer.objects.filter(sitename='MASTER-Mexico')
 
     amur_ebox = Ebox.objects.filter(sitename = 'MASTER-Amur')
@@ -150,7 +150,7 @@ def main_table(request):
     tavr_ebox = Ebox.objects.filter(sitename = 'MASTER-Tavrida')
     saao_ebox = Ebox.objects.filter(sitename = 'MASTER-SAAO')
     iac_ebox = Ebox.objects.filter(sitename = 'MASTER-IAC')
-    oafa_ebox = Ebox.objects.filter(sitename = 'MASTER-INAOE')
+    oafa_ebox = Ebox.objects.filter(sitename = 'MASTER-OAFA')
     mexico_ebox = Ebox.objects.filter(sitename='MASTER-Mexico')
 
     amur_act = Actuator.objects.filter(sitename = 'MASTER-Amur')
@@ -159,7 +159,7 @@ def main_table(request):
     tavr_act = Actuator.objects.filter(sitename = 'MASTER-Tavrida')
     saao_act = Actuator.objects.filter(sitename = 'MASTER-SAAO')
     iac_act = Actuator.objects.filter(sitename = 'MASTER-IAC')
-    oafa_act = Actuator.objects.filter(sitename = 'MASTER-INAOE')
+    oafa_act = Actuator.objects.filter(sitename = 'MASTER-OAFA')
     mexico_act = Actuator.objects.filter(sitename='MASTER-Mexico')
 
 
