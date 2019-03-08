@@ -130,15 +130,23 @@
       <td class="{{ mexico_dome.stclass }}"> {{ mexico_dome.status }} </td>
     </tr>
     <tr>
-      <th scope="row">Task</th>
-      <td class="{{ amur_head.stclass }}" colspan=2> {{ amur_head.status }} </td>
-      <td class="{{ tunka_head.stclass }}" colspan=2> {{ tunka_head.status }} </td>
-      <td class="{{ kislo_head.stclass }}" colspan=2> {{ kislo_head.status }} </td>
-      <td class="{{ tavr_head.stclass }}" colspan=2> {{ tavr_head.status }} </td>
-      <td class="{{ saao_head.stclass }}" colspan=2> {{ saao_head.status }} </td>
-      <td class="{{ iac_head.stclass }}" colspan=2> {{ iac_head.status }} </td>
-      <td class="{{ oafa_head.stclass }}" colspan=2> {{ oafa_head.status }} </td>
-      <td class="{{ mexico_head.stclass }}" colspan=2> {{ mexico_head.status }} </td>
+      <th scope="row">Meteo / Task</th>
+      <td class="table-success">-</td>
+      <td class="{{ amur_head.stclass }}"> {{ amur_head.status }} </td>
+      <td class="table-success">-</td>
+      <td class="{{ tunka_head.stclass }}"> {{ tunka_head.status }} </td>
+      <td class="table-success">-</td>
+      <td class="{{ kislo_head.stclass }}"> {{ kislo_head.status }} </td>
+      <td class="table-success">-</td>
+      <td class="{{ tavr_head.stclass }}"> {{ tavr_head.status }} </td>
+      <td class="table-success">-</td>
+      <td class="{{ saao_head.stclass }}"> {{ saao_head.status }} </td>
+      <td class="table-success">-</td>
+      <td class="{{ iac_head.stclass }}"> {{ iac_head.status }} </td>
+      <td class="table-success">-</td>
+      <td class="{{ oafa_head.stclass }}"> {{ oafa_head.status }} </td>
+      <td class="table-success">-</td>
+      <td class="{{ mexico_head.stclass }}"> {{ mexico_head.status }} </td>
     </tr>
     <tr>
       <th scope="row">CCDW/CCDE</th>
@@ -192,8 +200,8 @@
       <td class="{{ saao_filtere.stclass }}"> {{ saao_filtere.display_name }} </td>
       <td class="{{ iac_filterw.stclass }}"> {{ iac_filterw.display_name }} </td>
       <td class="{{ iac_filtere.stclass }}"> {{ iac_filtere.display_name }} </td>
-      <td class="{{ oafa_filterw.stclass }}"> {{ oafa_filterw.display_name }} </td>
       <td class="{{ oafa_filtere.stclass }}"> {{ oafa_filtere.display_name }} </td>
+      <td class="{{ oafa_filterw.stclass }}"> {{ oafa_filterw.display_name }} </td>
       <td class="{{ mexico_filterw.stclass }}"> {{ mexico_filterw.display_name }} </td>
       <td class="{{ mexico_filtere.stclass }}"> {{ mexico_filtere.display_name }} </td>
     </tr>
@@ -274,32 +282,10 @@
       <td class="{{ saao_focusere.stclass }}"> {{ saao_focusere.status }} </td>
       <td class="{{ iac_focuserw.stclass }}"> {{ iac_focuserw.status }} </td>
       <td class="{{ iac_focusere.stclass }}"> {{ iac_focusere.status }} </td>
-      <td class="{{ oafa_focuserw.stclass }}"> {{ oafa_focuserw.status }} </td>
       <td class="{{ oafa_focusere.stclass }}"> {{ oafa_focusere.status }} </td>
+      <td class="{{ oafa_focuserw.stclass }}"> {{ oafa_focuserw.status }} </td>
       <td class="{{ mexico_focuserw.stclass }}"> {{ mexico_focuserw.status }} </td>
       <td class="{{ mexico_focusere.stclass }}"> {{ mexico_focusere.status }} </td>
-    </tr>
-    <tr>
-      <th scope="row">Actuator</th>
-      <td class="{{ amur_act.stclass }}" colspan=2> {{ amur_act.zi_act_val }} </td>
-      <td class="{{ tunka_act.stclass }}" colspan=2> {{ tunka_act.zi_act_val }} </td>
-      <td class="{{ kislo_act.stclass }}" colspan=2> {{ kislo_act.zi_act_val }} </td>
-      <td class="{{ tavr_act.stclass }}" colspan=2> {{ tavr_act.zi_act_val }} </td>
-      <td class="{{ saao_act.stclass }}" colspan=2> {{ saao_act.zi_act_val }} </td>
-      <td class="{{ iac_act.stclass }}" colspan=2> {{ iac_act.zi_act_val }} </td>
-      <td class="{{ oafa_act.stclass }}" colspan=2> {{ oafa_act.zi_act_val }} </td>
-      <td class="{{ mexico_act.stclass }}" colspan=2> {{ mexico_act.zi_act_val }} </td>
-    </tr>
-    <tr>
-      <th scope="row">MeteoStation</th>
-      <td class="table-info" colspan=2>-</td>
-      <td class="table-info" colspan=2>-</td>
-      <td class="table-info" colspan=2>-</td>
-      <td class="table-info" colspan=2>-</td>
-      <td class="table-info" colspan=2>-</td>
-      <td class="table-info" colspan=2>-</td>
-      <td class="table-info" colspan=2>-</td>
-      <td class="table-info" colspan=2>-</td>
     </tr>
     <tr>
       <th scope="row">Ebox1/Ebox2</th>
@@ -322,6 +308,36 @@
     </tr>
     <tr>
       <th scope="row">IPCam_Ext/Int</th>
+      <td class="{{ amur_ipcamext.stclass }}"> {{ amur_ipcamext.status }} </td>
+      <td class="{{ amur_ipcamint.stclass }}"> {{ amur_ipcamint.status }} </td>
+      <td class="{{ tunka_ipcamext.stclass }}"> {{ tunka_ipcamext.status }} </td>
+      <td class="{{ tunka_ipcamint.stclass }}"> {{ tunka_ipcamint.status }} </td>
+      <td class="{{ kislo_ipcamext.stclass }}"> {{ kislo_ipcamext.status }} </td>
+      <td class="{{ kislo_ipcamint.stclass }}"> {{ kislo_ipcamint.status }} </td>
+      <td class="{{ tavr_ipcamext.stclass }}"> {{ tavr_ipcamext.status }} </td>
+      <td class="{{ tavr_ipcamint.stclass }}"> {{ tavr_ipcamint.status }} </td>
+      <td class="{{ saao_ipcamext.stclass }}"> {{ saao_ipcamext.status }} </td>
+      <td class="{{ saao_ipcamint.stclass }}"> {{ saao_ipcamint.status }} </td>
+      <td class="{{ iac_ipcamext.stclass }}"> {{ iac_ipcamext.status }} </td>
+      <td class="{{ iac_ipcamint.stclass }}"> {{ iac_ipcamint.status }} </td>
+      <td class="{{ oafa_ipcamext.stclass }}"> {{ oafa_ipcamext.status }} </td>
+      <td class="{{ oafa_ipcamint.stclass }}"> {{ oafa_ipcamint.status }} </td>
+      <td class="{{ mexico_ipcamext.stclass }}"> {{ mexico_ipcamext.status }} </td>
+      <td class="{{ mexico_ipcamint.stclass }}"> {{ mexico_ipcamint.status }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Actuator</th>
+      <td class="{{ amur_act.stclass }}" colspan=2> {{ amur_act.zi_act_val }} </td>
+      <td class="{{ tunka_act.stclass }}" colspan=2> {{ tunka_act.zi_act_val }} </td>
+      <td class="{{ kislo_act.stclass }}" colspan=2> {{ kislo_act.zi_act_val }} </td>
+      <td class="{{ tavr_act.stclass }}" colspan=2> {{ tavr_act.zi_act_val }} </td>
+      <td class="{{ saao_act.stclass }}" colspan=2> {{ saao_act.zi_act_val }} </td>
+      <td class="{{ iac_act.stclass }}" colspan=2> {{ iac_act.zi_act_val }} </td>
+      <td class="{{ oafa_act.stclass }}" colspan=2> {{ oafa_act.zi_act_val }} </td>
+      <td class="{{ mexico_act.stclass }}" colspan=2> {{ mexico_act.zi_act_val }} </td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
       <td class="table-info">-</td>
       <td class="table-info">-</td>
       <td class="table-info">-</td>
