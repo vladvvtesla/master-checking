@@ -32,7 +32,7 @@ script_name = 'get_zi_ccd_lastim.py'
 script_version = 'v.1.0_20190307'
 # cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
 cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
-reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
+reason_time = int(9000) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
 # htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
 htusers_cfg_path = '/home/vladvv/PycharmProjects/master-checking/etc/htusers.cfg'
@@ -200,6 +200,8 @@ def get_host_val(zvalue, ztimestamp):
     :param ztimestamp:
     :return status: visible value
     """
+    # print('zvalue', zvalue)
+    # print('ztimestamp', ztimestamp)
 
     diff_time = get_diff_time(ztimestamp)
 
@@ -314,6 +316,7 @@ if __name__ == '__main__':
 
         for ccd in (west_ccd, east_ccd):
             if ccd.exists:
+                # print(ccd.hostname)
                 limtime_lastvalue, limtime_lastts = get_zitem(ccd.zbsrv, ccd.hostid, limtime_regular)
                 limobj_lastvalue, limobj_lastts = get_zitem(ccd.zbsrv, ccd.hostid, limobj_regular)
                 trig_noccdim = get_ztrigger(ccd.zbsrv, ccd.hostid, trigreg_noccdim)
@@ -321,6 +324,9 @@ if __name__ == '__main__':
 
                 limtime = get_host_val(limtime_lastvalue, limtime_lastts)
                 limobj = get_limobj_val(limobj_lastvalue, limobj_lastts)
+                # print('limtime', limtime)
+                # print('limobj', limobj)
+                # print()
 
                 limtime_stclass = get_host_stclass(limtime, trig_noccdim, trig_focustoolong)
                 limobj_stclass = limtime_stclass
