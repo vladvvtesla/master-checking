@@ -22,6 +22,7 @@ django.setup()
 
 from pyzabbix import ZabbixAPI, ZabbixAPIException
 import configparser
+import time
 import datetime as dt
 from datetime import datetime
 
@@ -32,7 +33,8 @@ script_name = 'get_zi_wfc_lastim.py'
 script_version = 'v.1.2_20190307'
 # cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
 cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
-reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
+reason_image_time = int(64800) # (in seconds. Если изображение получено более чем 18 часов назад, то status = 'danger')
+reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'warning')
 
 # htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
 htusers_cfg_path = '/home/vladvv/PycharmProjects/master-checking/etc/htusers.cfg'
@@ -235,6 +237,16 @@ def get_host_stclass(dname='expired', trig_val=0):
     :return stsclass: success, warning, danger, etc
     """
 
+    try:
+        im_timestamp = time.mktime(datetime.strptime(dname, "%y%m%d %H:%M:%S").timetuple())
+    except ValueError:
+        im_timestamp = None
+
+    if im_timestamp is not None:
+        im_diff_time = get_diff_time(im_timestamp)
+    else:
+        im_diff_time = 0
+
     st_to_stclass = {'expired' : 'table-warning',
                    '-' : 'table-warning'}
 
@@ -249,6 +261,8 @@ def get_host_stclass(dname='expired', trig_val=0):
     elif int(trig_val) == 0:
         if dname in st_to_stclass:
             stclass =  st_to_stclass[dname]
+        elif im_diff_time > reason_image_time:
+            stclass = 'table-danger'
         else:
             stclass = 'table-success'
     else:

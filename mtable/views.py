@@ -99,6 +99,9 @@ def main_table(request):
     oafa_wfce = WFC.objects.filter(sitename = 'MASTER-OAFA').filter(tube = 'east')
     mexico_wfce = WFC.objects.filter(sitename='MASTER-Mexico').filter(tube='east')
 
+    tavr_qhyw = Ccd.objects.filter(sitename = 'MASTER-Tavrida').filter(ccdid = '501')
+    tavr_qhye = Ccd.objects.filter(sitename = 'MASTER-Tavrida').filter(ccdid = '500')
+
     amur_filterw = Filter.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'west')
     tunka_filterw = Filter.objects.filter(sitename = 'MASTER-Tunka').filter(tube = 'west')
     kislo_filterw = Filter.objects.filter(sitename = 'MASTER-Kislovodsk').filter(tube = 'west')
@@ -236,6 +239,8 @@ def main_table(request):
                                                 'iac_wfce': iac_wfce[0],
                                                 'oafa_wfce': oafa_wfce[0],
                                                 'mexico_wfce': mexico_wfce[0],
+                                                    'tavr_qhyw': tavr_qhyw[0],
+                                                    'tavr_qhye': tavr_qhye[0],
                                                         'amur_filterw': amur_filterw[0],
                                                         'tunka_filterw': tunka_filterw[0],
                                                         'kislo_filterw': kislo_filterw[0],

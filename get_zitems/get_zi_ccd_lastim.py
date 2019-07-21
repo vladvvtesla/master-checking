@@ -22,6 +22,7 @@ django.setup()
 
 from pyzabbix import ZabbixAPI, ZabbixAPIException
 import configparser
+import time
 import datetime as dt
 from datetime import datetime
 
@@ -29,9 +30,10 @@ from mtable.models import MasterSite, Ccd
 
 
 script_name = 'get_zi_ccd_lastim.py'
-script_version = 'v.1.0_20190307'
+script_version = 'v.1.1_20190721'
 # cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
 cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
+reason_image_time = int(64800) # (in seconds. Если изображение получено более чем 18 часов назад, то status = 'danger')
 reason_time = int(9000) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
 # htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
@@ -270,8 +272,19 @@ def get_host_stclass(st='expired', trig_ccd=0, trig_focus=0):
     >>> get_host_stclass('expired', 0, 0)
     'table-warning'
     >>> get_host_stclass('190307 10:36:32', 0, 0)
-    'table-success'
+    'table-danger'
     """
+
+
+    try:
+        im_timestamp = time.mktime(datetime.strptime(st, "%y%m%d %H:%M:%S").timetuple())
+    except ValueError:
+        im_timestamp = None
+
+    if im_timestamp is not None:
+        im_diff_time = get_diff_time(im_timestamp)
+    else:
+        im_diff_time = 0
 
     st_to_stclass = {502 : 'table-warning',
                      503: 'table-warning',
@@ -279,14 +292,16 @@ def get_host_stclass(st='expired', trig_ccd=0, trig_focus=0):
                      'expired' : 'table-warning',
                      '-' : 'table-warning'}
 
-    trig_max = int(max(trig_ccd, trig_focus))
+    trig_max = max(int(trig_ccd), int(trig_focus))
 
     if trig_max in st_to_stclass.keys():   #  No Data
-        stclass = st_to_stclass[st]
+        stclass = st_to_stclass[trig_max]
     elif trig_max == 1:                    #  One of the trggers in PROBLEM status
         stclass = 'table-danger'
     elif st in st_to_stclass.keys():       #  There aren't  Triggers, but Item Value is in special list
         stclass = st_to_stclass[st]
+    elif im_diff_time > reason_image_time: #  Image has been got many hours ago
+        stclass = 'table-danger'
     elif trig_max == 0:                    #  That is OK
         stclass = 'table-success'
     else:
@@ -307,38 +322,81 @@ if __name__ == '__main__':
         name = s.sitename
         # url = s.ccdurl
 
-        # Made dict with two ccd in each site
-        for ccd in ccds:
-            if ccd.sitename == s.sitename and ccd.tube == 'west':
-                west_ccd = ccd
-            elif ccd.sitename == s.sitename and ccd.tube == 'east':
-                east_ccd = ccd
+        if name in ('MASTER-Tavrida',):
+            # Made dict with four ccd in each site
+            for ccd in ccds:
+                if ccd.sitename == s.sitename and 'qhy' in ccd.hostname and ccd.tube == 'west':
+                    west_qhyccd = ccd
+                elif ccd.sitename == s.sitename and 'qhy' in ccd.hostname and ccd.tube == 'east':
+                    east_qhyccd = ccd
+                elif ccd.sitename == s.sitename and 'qhy' not in ccd.hostname and ccd.tube == 'west':
+                    west_ccd = ccd
+                elif ccd.sitename == s.sitename and 'qhy' not in ccd.hostname and ccd.tube == 'east':
+                    east_ccd = ccd
 
-        for ccd in (west_ccd, east_ccd):
-            if ccd.exists:
-                # print(ccd.hostname)
-                limtime_lastvalue, limtime_lastts = get_zitem(ccd.zbsrv, ccd.hostid, limtime_regular)
-                limobj_lastvalue, limobj_lastts = get_zitem(ccd.zbsrv, ccd.hostid, limobj_regular)
-                trig_noccdim = get_ztrigger(ccd.zbsrv, ccd.hostid, trigreg_noccdim)
-                trig_focustoolong = get_ztrigger(ccd.zbsrv, ccd.hostid, trigreg_focustoolong)
+            for ccd in (west_ccd, east_ccd, west_qhyccd, east_qhyccd):
+                if ccd.exists:
+                    # print(ccd.hostname)
+                    limtime_lastvalue, limtime_lastts = get_zitem(ccd.zbsrv, ccd.hostid, limtime_regular)
+                    limobj_lastvalue, limobj_lastts = get_zitem(ccd.zbsrv, ccd.hostid, limobj_regular)
+                    trig_noccdim = get_ztrigger(ccd.zbsrv, ccd.hostid, trigreg_noccdim)
+                    trig_focustoolong = get_ztrigger(ccd.zbsrv, ccd.hostid, trigreg_focustoolong)
 
-                limtime = get_host_val(limtime_lastvalue, limtime_lastts)
-                limobj = get_limobj_val(limobj_lastvalue, limobj_lastts)
-                # print('limtime', limtime)
-                # print('limobj', limobj)
-                # print()
+                    limtime = get_host_val(limtime_lastvalue, limtime_lastts)
+                    limobj = get_limobj_val(limobj_lastvalue, limobj_lastts)
+                    # print('limtime', limtime)
+                    # print('limobj', limobj)
+                    # print()
 
-                limtime_stclass = get_host_stclass(limtime, trig_noccdim, trig_focustoolong)
-                limobj_stclass = limtime_stclass
+                    limtime_stclass = get_host_stclass(limtime, trig_noccdim, trig_focustoolong)
+                    limobj_stclass = limtime_stclass
 
-            else:
-                limobj = '-'
-                limobj_stclass = 'table-info'
-                limtime = '-'
-                limtime_stclass = 'table-info'
+                else:
+                    limobj = '-'
+                    limobj_stclass = 'table-info'
+                    limtime = '-'
+                    limtime_stclass = 'table-info'
 
-            ccd.last_imobj = limobj
-            ccd.last_imobj_stclass = limobj_stclass
-            ccd.last_imtime = limtime
-            ccd.last_imtime_stclass = limtime_stclass
-            ccd.save()
+                ccd.last_imobj = limobj
+                ccd.last_imobj_stclass = limobj_stclass
+                ccd.last_imtime = limtime
+                ccd.last_imtime_stclass = limtime_stclass
+                ccd.save()
+
+        # Other observatories
+        else:
+            # Made dict with two ccd in each site
+            for ccd in ccds:
+                if ccd.sitename == s.sitename and ccd.tube == 'west':
+                    west_ccd = ccd
+                elif ccd.sitename == s.sitename and ccd.tube == 'east':
+                    east_ccd = ccd
+
+            for ccd in (west_ccd, east_ccd):
+                if ccd.exists:
+                    # print(ccd.hostname)
+                    limtime_lastvalue, limtime_lastts = get_zitem(ccd.zbsrv, ccd.hostid, limtime_regular)
+                    limobj_lastvalue, limobj_lastts = get_zitem(ccd.zbsrv, ccd.hostid, limobj_regular)
+                    trig_noccdim = get_ztrigger(ccd.zbsrv, ccd.hostid, trigreg_noccdim)
+                    trig_focustoolong = get_ztrigger(ccd.zbsrv, ccd.hostid, trigreg_focustoolong)
+
+                    limtime = get_host_val(limtime_lastvalue, limtime_lastts)
+                    limobj = get_limobj_val(limobj_lastvalue, limobj_lastts)
+                    # print('limtime', limtime)
+                    # print('limobj', limobj)
+                    # print()
+
+                    limtime_stclass = get_host_stclass(limtime, trig_noccdim, trig_focustoolong)
+                    limobj_stclass = limtime_stclass
+
+                else:
+                    limobj = '-'
+                    limobj_stclass = 'table-info'
+                    limtime = '-'
+                    limtime_stclass = 'table-info'
+
+                ccd.last_imobj = limobj
+                ccd.last_imobj_stclass = limobj_stclass
+                ccd.last_imtime = limtime
+                ccd.last_imtime_stclass = limtime_stclass
+                ccd.save()
