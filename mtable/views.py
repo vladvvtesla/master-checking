@@ -147,14 +147,19 @@ def main_table(request):
     oafa_ssrv = SecondServer.objects.filter(sitename = 'MASTER-OAFA')
     mexico_ssrv = SecondServer.objects.filter(sitename='MASTER-Mexico')
 
-    amur_ebox = Ebox.objects.filter(sitename = 'MASTER-Amur')
-    tunka_ebox = Ebox.objects.filter(sitename = 'MASTER-Tunka')
-    kislo_ebox = Ebox.objects.filter(sitename = 'MASTER-Kislovodsk')
-    tavr_ebox = Ebox.objects.filter(sitename = 'MASTER-Tavrida')
-    saao_ebox = Ebox.objects.filter(sitename = 'MASTER-SAAO')
-    iac_ebox = Ebox.objects.filter(sitename = 'MASTER-IAC')
-    oafa_ebox = Ebox.objects.filter(sitename = 'MASTER-OAFA')
-    mexico_ebox = Ebox.objects.filter(sitename='MASTER-Mexico')
+    amur_e21 = Ebox.objects.filter(hostname = 'amur-e21')
+    tunka_e203 = Ebox.objects.filter(hostname = 'tunka-e203')
+    kislo_e16 = Ebox.objects.filter(hostname = 'kislo-e16')
+    kislo_n17 = Ebox.objects.filter(hostname='kislo-n17')
+    kislo_e22 = Ebox.objects.filter(hostname='kislo-e22')
+    kislo_e33 = Ebox.objects.filter(hostname='kislo-e33')
+    tavr_e98 = Ebox.objects.filter(hostname = 'tavrida-e98')
+    tavr_e99 = Ebox.objects.filter(hostname='tavrida-e99')
+    tavr_e41 = Ebox.objects.filter(hostname='tavrida-e41')
+    saao_e99 = Ebox.objects.filter(hostname = 'saao-e99')
+    iac_e3 = Ebox.objects.filter(hostname = 'iac-e3')
+    oafa_e150 = Ebox.objects.filter(hostname = 'oafa-e150')
+    mexico_e100 = Ebox.objects.filter(hostname = 'mexico-e100')
 
     amur_act = Actuator.objects.filter(sitename = 'MASTER-Amur')
     tunka_act = Actuator.objects.filter(sitename = 'MASTER-Tunka')
@@ -281,14 +286,19 @@ def main_table(request):
                                                         'iac_ssrv': iac_ssrv[0],
                                                         'oafa_ssrv': oafa_ssrv[0],
                                                         'mexico_ssrv': mexico_ssrv[0],
-                                                'amur_ebox': amur_ebox[0],
-                                                'tunka_ebox': tunka_ebox[0],
-                                                'kislo_ebox': kislo_ebox[0],
-                                                'tavr_ebox': tavr_ebox[0],
-                                                'saao_ebox': saao_ebox[0],
-                                                'iac_ebox': iac_ebox[0],
-                                                'oafa_ebox': oafa_ebox[0],
-                                                'mexico_ebox': mexico_ebox[0],
+                                                'amur_e21': amur_e21[0],
+                                                'tunka_e203': tunka_e203[0],
+                                                'kislo_e16': kislo_e16[0],
+                                                'kislo_n17': kislo_n17[0],
+                                                'kislo_e22': kislo_e22[0],
+                                                'kislo_e33': kislo_e33[0],
+                                                'tavr_e98': tavr_e98[0],
+                                                'tavr_e99': tavr_e99[0],
+                                                'tavr_e41': tavr_e41[0],
+                                                'saao_e99': saao_e99[0],
+                                                'iac_e3': iac_e3[0],
+                                                'oafa_e150': oafa_e150[0],
+                                                'mexico_e100': mexico_e100[0],
                                                         'amur_act': amur_act[0],
                                                         'tunka_act': tunka_act[0],
                                                         'kislo_act': kislo_act[0],

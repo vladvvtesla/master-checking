@@ -3,12 +3,13 @@
 
 
 '''
-# Документация на masterwiki - http://46.101.237.78/tiki/tiki-index.php?page=MASTERCheckList
-1. Составить get  запрос к zabbix-серверу.
-2. Этому запросу передать host, например, iac-mount, и item,  например, mount_status
-3. полученное значение item  записать в sqlite3 базу как аттрибут объекта iac-mount.mountst
+#
+Documentation onasterwiki - http://46.101.237.78/tiki/tiki-index.php?page=MASTERCheckList
+1. Make a GET-request to zabbix-server.
+2. including host-name and item, for example, iac-mount and mount_status
+3. Obtained item  put into sqlite3 database as a iac-mount.mountst
 
-4. Зависимости pyzabbix, requests
+4. Dependencies pyzabbix, requests
 (myenv) pip install pyzabbix, requests
 '''
 
@@ -24,15 +25,15 @@ from pyzabbix import ZabbixAPI, ZabbixAPIException
 import configparser
 import datetime as dt
 import time
-from mtable.models import Filter
+from mtable.models import Ebox
 
-script_name = 'get_zi_filter.py'
-scipt_version = 'v.1.1_20181006'
+script_name = 'get_zi_ebox.py'
+scipt_version = 'v.1.0_20190830'
 #cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
 cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
-reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
+reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'expired')
 
-item_regular = 'filter'
+item_regular = 'ICMP ping'
 
 
 def get_zitem(zbsrv, hostid, item_regular):
@@ -81,18 +82,19 @@ def get_zitem(zbsrv, hostid, item_regular):
                     # print(item['itemid'], item['name'], item['lastvalue'], item['lastclock'])
                     item_lastvalue = int(item['lastvalue'])
                     item_lastts = int(item['lastclock'])
+                    break
                 else:
-                    print('There is no ', item_regular, ' in items list')
+                    # print('There is no ', item_regular, ' in items list')
                     item_lastvalue = 505
                     item_lastts = int(time.time())
         else:
             # If connetction to ZabbixServer exists, but items list is empty
-            print('items list for', hostid, 'is empty')
+            # print('items list for', hostid, 'is empty')
             item_lastvalue = 504
             item_lastts = int(time.time())
     # If There is no connection to ZabbixServer
     except Exception as e:
-        print('error text - ', e)
+        # print('error text - ', e)
         item_lastvalue = 503
         item_lastts = int(time.time())
 
@@ -118,11 +120,12 @@ def get_diff_time(ts):
     return diff_time
 
 
-def get_display_name(lastvalue, lastclock):
+def get_display_name(lastvalue, lastclock, hdefault_dname):
     """
     Calculate and return host_status, based on difference parameters
     :param lastvalue: lastvalue
     :param lastclock: lastclock
+    :param hdefault_dname:  host default display name
     :return status: host status
     """
 
@@ -130,37 +133,28 @@ def get_display_name(lastvalue, lastclock):
     # print(diff_time)
 
     val_to_stat = {503 : 'NoConnz',
-                   504: 'expired',
-                   0 : 'NoConn',
-                   1 : 'ERR',
-                   2 : 'BLANK',
-                   3 : 'CHANGING',
-                   4: 'FAULT',
-                   5: 'B',
-                   6: 'V',
-                   7: 'R',
-                   8: 'I',
-                   9: 'W',
-                   10: 'C',
-                   11: 'P',
-                   12: 'Q'}
+                   504: 'ex',
+                   0 : 'Down',
+                   1 : hdefault_dname,
+                   }
 
     if diff_time < reason_time:
         dname =  val_to_stat[lastvalue]
     elif diff_time > reason_time:
-        dname = 'expired'
+        dname = 'ex'
     else:
-        dname = 'expired'
+        dname = 'ex'
 
     return dname
 
 
 
-def get_host_status(dname, lastclock):
+def get_host_status(dname, lastclock, hdefault_dname):
     """
     Calculate and return host_status, based on difference parameters
     :param lastvalue: lastvalue
     :param lastclock: lastclock
+    :param hdefault_dname: host default display name
     :return status: host status
     """
 
@@ -168,20 +162,10 @@ def get_host_status(dname, lastclock):
     # print(diff_time)
 
     val_to_stat = {'NoConnz' : 'danger',
-                   'expired' : 'expired',
-                   'NoConn' : 'expired',
-                   'ERR' : 'expired',
-                   'BLANK' : 'OK',
-                   'CHANGING' : 'danger',
-                   'FAULT' : 'danger',
-                   'B' : 'OK',
-                   'V' : 'OK',
-                   'R' : 'OK',
-                   'I' : 'OK',
-                   'W' : 'OK',
-                   'C' : 'OK',
-                   'P' : 'OK',
-                   'Q' : 'OK',}
+                   'ex' : 'expired',
+                   'Down' : 'Down',
+                   hdefault_dname : 'UP',
+                   }
 
     if diff_time < reason_time:
         status =  val_to_stat[dname]
@@ -193,16 +177,18 @@ def get_host_status(dname, lastclock):
     return status
 
 
-def get_host_stclass(status='expired'):
+def get_host_stclass(status='expired',):
     """
     Mappint status to stsclass, success, warning, danger, etc
     :param status: ON, OFF, maintenace, etc
+    :param hdefault_dname: host default display name
     :return stsclass: success, warning, danger, etc
     """
 
     st_to_stclass = {'danger' : 'table-danger',
-                   'expired' : 'table-warning',
-                   'OK' : 'table-success'}
+                     'expired' : 'table-warning',
+                     'Down': 'table-danger',
+                     'UP' : 'table-success'}
 
     if status in st_to_stclass:
         stclass =  st_to_stclass[status]
@@ -215,7 +201,7 @@ def get_host_stclass(status='expired'):
 
 if __name__ == '__main__':
 
-    hosts = Filter.objects.all()
+    hosts = Ebox.objects.all()
     for host in hosts:
         # print()
         # print(host.hostname)
@@ -224,21 +210,14 @@ if __name__ == '__main__':
 
         # If host on maintenance don't execute get_zitem
         if host.maintenance:
-            item_lastvalue = "9"
+            item_lastvalue = "0"
             item_lastts = 1519398497
             display_name = "-"
             host_status = "-"
             host_stclass = "table-info"
             # If host not exists don't execute get_zitem
-            # Exclude for MASTR-SAAO
-        elif host.hostname == 'oafa-filter-east':
-            item_lastvalue = "2"
-            item_lastts = 1519398497
-            display_name = "BLANK"
-            host_status = "OK"
-            host_stclass = "table-success"
         elif not host.exists:
-            item_lastvalue = "9"
+            item_lastvalue = "0"
             item_lastts = 1519398497
             display_name = "-"
             host_status = "-"
@@ -248,22 +227,19 @@ if __name__ == '__main__':
             # print("item_lastvalue: ", item_lastvalue)
             # print("item_lastts: ", item_lastts)
 
-            display_name = get_display_name(item_lastvalue, item_lastts)
+            display_name = get_display_name(item_lastvalue, item_lastts, host.default_dname)
             # print("display_name: ", display_name)
 
-            host_status = get_host_status(display_name, item_lastts)
+            host_status = get_host_status(display_name, item_lastts, host.default_dname)
             # print("host_status: ", host_status)
 
             host_stclass = get_host_stclass(host_status)
             # print("host_stclass: ", host_stclass)
             # print()
 
-        # host.zi_dome_val - digit code from zabbix-server
-        # host.status = what is showed on main-table
-        host.zi_filter_val = item_lastvalue
-        host.zi_filter_ts = item_lastts
+        host.zi_pingval = item_lastvalue
+        host.zi_pingts = item_lastts
         host.display_name = display_name
         host.status = host_status
         host.stclass = host_stclass
         host.save()
-

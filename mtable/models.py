@@ -211,6 +211,8 @@ class Ebox(models.Model):
     ipaddr = models.GenericIPAddressField(default='127.0.0.1')
     zi_pingval = models.SmallIntegerField(default=0)
     zi_pingts = models.IntegerField(default=1519398497)
+    display_name = models.CharField(max_length=3, default='-')
+    default_dname = models.CharField(max_length=3, default='-')
     status = models.CharField(max_length=7, default='OK')
     stclass = models.CharField(max_length=13, default='table-info')
 
@@ -228,6 +230,7 @@ class Actuator(models.Model):
     hostname = models.CharField(max_length=12, default='amur-dome')
     zi_act_val = models.CharField(max_length=9)
     zi_act_ts = models.IntegerField(default=1519398497)
+    display_name = models.CharField(max_length=8, default='-')
     status = models.CharField(max_length=7, default='OK')
     stclass = models.CharField(max_length=13, default='table-info')
 

@@ -33,7 +33,7 @@ script_name = 'get_zi_wfc_lastim.py'
 script_version = 'v.1.2_20190307'
 # cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
 cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
-reason_image_time = int(64800) # (in seconds. Если изображение получено более чем 18 часов назад, то status = 'danger')
+reason_image_time = int(72000) # (in seconds. Если изображение получено более чем 20 часов назад, то status = 'danger')
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'warning')
 
 # htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
