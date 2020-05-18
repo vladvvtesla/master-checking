@@ -28,8 +28,8 @@ from mtable.models import SecondServer
 
 script_name = 'get_zi_ssrv.py'
 scipt_version = 'v.0.1_20180327'
-#cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
-cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
+cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
+# cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
 item_regular = 'ICMP ping'

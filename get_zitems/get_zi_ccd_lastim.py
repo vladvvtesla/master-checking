@@ -31,13 +31,13 @@ from mtable.models import MasterSite, Ccd
 
 script_name = 'get_zi_ccd_lastim.py'
 script_version = 'v.1.1_20190721'
-# cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
-cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
+cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
+# cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_image_time = int(64800) # (in seconds. Если изображение получено более чем 18 часов назад, то status = 'danger')
 reason_time = int(9000) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
-# htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
-htusers_cfg_path = '/home/vladvv/PycharmProjects/master-checking/etc/htusers.cfg'
+htusers_cfg_path = '/home/vladvv/master-checking/etc/htusers.cfg'
+# htusers_cfg_path = '/home/vladvv/PycharmProjects/master-checking/etc/htusers.cfg'
 
 limtime_regular = 'Time_Stamp'
 limobj_regular = 'Object'

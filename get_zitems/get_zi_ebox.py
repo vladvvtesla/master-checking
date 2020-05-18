@@ -29,8 +29,8 @@ from mtable.models import Ebox
 
 script_name = 'get_zi_ebox.py'
 scipt_version = 'v.1.0_20190830'
-#cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
-cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
+cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
+# cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'expired')
 
 item_regular = 'ICMP ping'
@@ -132,7 +132,8 @@ def get_display_name(lastvalue, lastclock, hdefault_dname):
     diff_time = get_diff_time(lastclock)
     # print(diff_time)
 
-    val_to_stat = {503 : 'NoConnz',
+    val_to_stat = {505 : 'NoItem',
+                   503 : 'NoConnz',
                    504: 'ex',
                    0 : 'Down',
                    1 : hdefault_dname,
@@ -161,7 +162,8 @@ def get_host_status(dname, lastclock, hdefault_dname):
     diff_time = get_diff_time(lastclock)
     # print(diff_time)
 
-    val_to_stat = {'NoConnz' : 'danger',
+    val_to_stat = {'NoItem' : 'expired',
+                   'NoConnz' : 'danger',
                    'ex' : 'expired',
                    'Down' : 'Down',
                    hdefault_dname : 'UP',

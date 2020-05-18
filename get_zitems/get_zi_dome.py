@@ -28,8 +28,8 @@ from mtable.models import Dome
 
 script_name = 'get_zi_dome.py'
 scipt_version = 'v.1.1_20181005'
-#cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
-cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
+cfg_path = "/home/vladvv/master-checking/etc/zbsrv.cfg"
+# cfg_path = "/home/vladvv/PycharmProjects/master-checking/etc/zbsrv.cfg"
 reason_time = int(900) # (in seconds. Если данные долго не поступали, то status = 'outdated')
 
 item_regular = 'dome_status'
