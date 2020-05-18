@@ -63,8 +63,10 @@ def get_zitem(zbsrv, hostid, item_regular):
 
     if zbsrv in zbsrvs[0]:
         srv = zbsrvs[0]
-    else:
+    elif zbsrv in zbsrvs[1]:
         srv = zbsrvs[1]
+    else:
+        srv = zbsrvs[2]
 
     ZABBIX_SERVER = 'http://' + config[srv]['zbsrv_ip'] + '/zabbix'
     zbsrv_username = config[srv]['zbsrv_username']
