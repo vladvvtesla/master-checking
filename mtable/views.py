@@ -156,7 +156,7 @@ def main_table(request):
     tavr_e98 = Ebox.objects.filter(hostname = 'tavrida-e98')
     tavr_e99 = Ebox.objects.filter(hostname='tavrida-e99')
     tavr_e41 = Ebox.objects.filter(hostname='tavrida-e41')
-    saao_e99 = Ebox.objects.filter(hostname = 'saao-e99')
+    saao_e98 = Ebox.objects.filter(hostname = 'saao-e98')
     iac_e3 = Ebox.objects.filter(hostname = 'iac-e3')
     oafa_e150 = Ebox.objects.filter(hostname = 'oafa-e150')
     mexico_e100 = Ebox.objects.filter(hostname = 'mexico-e100')
@@ -295,7 +295,7 @@ def main_table(request):
                                                 'tavr_e98': tavr_e98[0],
                                                 'tavr_e99': tavr_e99[0],
                                                 'tavr_e41': tavr_e41[0],
-                                                'saao_e99': saao_e99[0],
+                                                'saao_e98': saao_e98[0],
                                                 'iac_e3': iac_e3[0],
                                                 'oafa_e150': oafa_e150[0],
                                                 'mexico_e100': mexico_e100[0],
