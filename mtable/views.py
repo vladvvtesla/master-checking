@@ -148,7 +148,7 @@ def main_table(request):
     mexico_ssrv = SecondServer.objects.filter(sitename='MASTER-Mexico')
 
     amur_e21 = Ebox.objects.filter(hostname = 'amur-e21')
-    tunka_e203 = Ebox.objects.filter(hostname = 'tunka-e203')
+    tunka_e241 = Ebox.objects.filter(hostname = 'tunka-e241')
     kislo_e16 = Ebox.objects.filter(hostname = 'kislo-e16')
     kislo_n17 = Ebox.objects.filter(hostname='kislo-n17')
     kislo_e22 = Ebox.objects.filter(hostname='kislo-e22')
@@ -287,7 +287,7 @@ def main_table(request):
                                                         'oafa_ssrv': oafa_ssrv[0],
                                                         'mexico_ssrv': mexico_ssrv[0],
                                                 'amur_e21': amur_e21[0],
-                                                'tunka_e203': tunka_e203[0],
+                                                'tunka_e241': tunka_e241[0],
                                                 'kislo_e16': kislo_e16[0],
                                                 'kislo_n17': kislo_n17[0],
                                                 'kislo_e22': kislo_e22[0],
