@@ -15,18 +15,27 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+import environ
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+    ALLOWED_HOSTS=(list, [])
+)
+# reading .env file
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r1aygm8+j&sah%8ja@@nn5x+(ejh*oje+)yqf9-k!_cn%-$sxh'
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# False if not in os.environ
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', '78.155.219.235', '192.168.50.106']
-
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 # Application definition
 
