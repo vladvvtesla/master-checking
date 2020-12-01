@@ -64,7 +64,7 @@ def main_table(request):
     mexico_dome = Dome.objects.filter(sitename='MASTER-Mexico')
 
     amur_ccdw = Ccd.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'west')
-    tunka_ccdw = Ccd.objects.filter(sitename = 'MASTER-Tunka').filter(tube = 'west')
+    tunka_ccdw = Ccd.objects.filter(sitename = 'MASTER-Tunka').filter(ccdid = '300')
     kislo_ccdw = Ccd.objects.filter(sitename = 'MASTER-Kislovodsk').filter(tube = 'west')
     tavr_ccdw = Ccd.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'west')
     saao_ccdw = Ccd.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'west')
@@ -73,7 +73,7 @@ def main_table(request):
     mexico_ccdw = Ccd.objects.filter(sitename='MASTER-Mexico').filter(tube='west')
 
     amur_ccde = Ccd.objects.filter(sitename = 'MASTER-Amur').filter(tube = 'east')
-    tunka_ccde = Ccd.objects.filter(sitename = 'MASTER-Tunka').filter(tube = 'east')
+    tunka_ccde = Ccd.objects.filter(sitename = 'MASTER-Tunka').filter(ccdid = '301')
     kislo_ccde = Ccd.objects.filter(sitename = 'MASTER-Kislovodsk').filter(tube = 'east')
     tavr_ccde = Ccd.objects.filter(sitename = 'MASTER-Tavrida').filter(tube = 'east')
     saao_ccde = Ccd.objects.filter(sitename = 'MASTER-SAAO').filter(tube = 'east')
